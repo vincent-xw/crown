@@ -1,0 +1,37 @@
+{
+  "name": "crown",
+  "version": "1.0.0",
+  "description": "crown",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack",
+    "server": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincent-xw/crown.git"
+  },
+  "keywords": [
+    "crown"
+  ],
+  "author": "vince",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/vincent-xw/crown/issues"
+  },
+  "homepage": "https://github.com/vincent-xw/crown#readme",
+  "dependencies": {
+    "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.2.5",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.9",
+    "postcss-loader": "^2.0.10",
+    "style-loader": "^0.19.1",
+    "webpack-dev-server": "^2.11.0"
+  }
+}
