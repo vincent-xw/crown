@@ -1,0 +1,35 @@
+module.exports = {
+    zh_cn:{
+        index:{
+            title:"首页",
+        },
+        aboutus:{
+            title:"关于我们",
+        },
+        contactus:{
+            title:"联系我们",
+        }
+    },
+    en_us:{
+        index:{
+            title:"homePage",
+        },
+        aboutus:{
+            title:"aboutUs",
+        },
+        contactus:{
+            title:"contactUs",
+        }
+    },
+    my:{
+        index:{
+            title:"rumah",
+        },
+        aboutus:{
+            title:"mengenaiKami",
+        },
+        contactus:{
+            title:"hubungiKami",
+        }
+    },
+}

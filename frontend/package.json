@@ -1,0 +1,24 @@
+{
+  "name": "crown",
+  "version": "1.0.0",
+  "description": "定时任务，随机算法，模块化",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincent-xw/crown.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vincent-xw/crown/issues"
+  },
+  "homepage": "https://github.com/vincent-xw/crown#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "gulp": "^3.9.1",
+    "hbs": "^4.0.1"
+  }
+}
