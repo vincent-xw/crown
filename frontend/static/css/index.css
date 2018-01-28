@@ -1,0 +1,66 @@
+body{
+    padding-bottom: 160px;
+}
+.header,.footer{
+    height: 60px;
+    background: #4b4c4d;
+    width: 100%;
+    color: #d7d7d7;
+}
+p{
+    margin-bottom: 0;
+}
+.header{
+    line-height: 60px;
+}
+.logo img{
+    width: 100%;
+}
+.footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+.navBar{
+    background: #ffffff;
+}
+.list{
+    list-style: none;
+    line-height: 88px;
+}
+.list li{
+    display: inline-block;
+    padding: 0 20px;
+    cursor: pointer;
+    color: #4b4c4d;
+}
+.list li.active,.list li:hover{
+    background: #f9f9f9;
+    color: inherit;
+    border-top: 4px solid #e7402f;
+    margin-top: -4px;
+}
+.infoPanel{
+    background: #e7402f;
+    width: 100%;
+    color: #FFFFFF;
+    padding: 40px 0;
+}
+.infoPanel .mainTitle{
+    font-size: 46px;
+    font-weight: normal;
+}
+.main {
+    margin-top: 50px;
+    background: #e6e6e6;
+}
+.main p{
+    line-height: 60px;
+    border-bottom: 1px solid #FFFFFF;
+}
+.clearPadding{
+    padding: 0;
+}
+.copy{
+    width: 100%;
+}

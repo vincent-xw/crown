@@ -18,7 +18,15 @@
   "homepage": "https://github.com/vincent-xw/crown#readme",
   "dependencies": {
     "express": "^4.16.2",
+    "express-livereload": "0.0.24",
     "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.9.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-webserver": "^0.9.1",
     "hbs": "^4.0.1"
+  },
+  "devDependencies": {
+    "express-static-livereload": "^1.0.1"
   }
 }
