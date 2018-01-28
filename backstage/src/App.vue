@@ -2,7 +2,7 @@
   <div id="app">
   <el-container>
 		<el-header class="el-header">
-      <h3>皇冠4D彩票后台管理系统</h3>
+      <h3 style="color:#FFFFFF">皇冠4D彩票后台管理系统</h3>
       <el-button class="logout">注销</el-button>
     </el-header>
 		<el-main>
@@ -44,5 +44,20 @@ blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr
 .baseContainer{
   width: 80%;
   margin: 0 auto;
+}
+.container{
+  padding: 10px;
+  margin: 10px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.line{
+  margin-bottom: 10px;
+}
+.text-center{
+  text-align: center;
+}
+.text-right{
+  text-align: right;
 }
 </style>
