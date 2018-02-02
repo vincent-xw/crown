@@ -24,7 +24,10 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "gulp-webserver": "^0.9.1",
-    "hbs": "^4.0.1"
+    "hbs": "^4.0.1",
+    "cookie-parser": "^1.4.3",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.0.3"
   },
   "devDependencies": {
     "express-static-livereload": "^1.0.1"
