@@ -60,4 +60,9 @@ blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr
 .text-right{
   text-align: right;
 }
+.prizeContainer{
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  padding: 20px;
+}
 </style>

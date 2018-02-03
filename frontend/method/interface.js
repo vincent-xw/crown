@@ -146,4 +146,18 @@ module.exports = function(app){
             
         }));
     });
+    //  获取系统设置
+    app.get('/api/setInfo/get', function(req, res, next){
+
+        let system = require("./model/systemModel");
+        let result = {
+            "status":500,
+            "msg":"sess"
+        };
+        system.findOne().then(data=>{
+            result.data = data;
+            result.status = 200;
+            res.json(result);
+        });
+    });
 }

@@ -6,8 +6,12 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-Vue.config.productionTip = false
+import axios from 'axios'
+import interfaces from './config/interface'
 
+Vue.config.productionTip = false
+Vue.prototype.$axios = axios;
+Vue.prototype.$interfaces = interfaces();
 /* eslint-disable no-new */
 
 Vue.use(ElementUI)

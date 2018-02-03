@@ -27,7 +27,6 @@
 		</el-row>
 		<el-row>
 			<div class="container">
-				<h2 class="line">游戏设置</h2>
 				<el-form :model="ruleForm" :inline="true" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="时间" prop="time">
 						<el-date-picker
@@ -47,12 +46,12 @@
 		<el-row>
 			<div class="container">
 				<el-col :span="12">
-					<h3>当前状态: <span>正在开采</span> </h3>
+					<h3>当前状态: <span>{{status}}</span> </h3>
 				</el-col>
 				<el-col :span="12" class="text-center">
-					<el-button type="primary">游戏设置</el-button>
-					<el-button type="primary">直播开奖</el-button>
-					<el-button type="primary">自定义开奖</el-button>
+					<el-button type="primary" @click="gameSetting">游戏设置</el-button>
+					<el-button type="primary" @click="liveConf">直播开奖</el-button>
+					<el-button type="primary" @click="showCustomize">自定义开奖</el-button>
 				</el-col>
 			</div>
 		</el-row>
@@ -107,49 +106,200 @@
 				
 			</div>
 		</el-row>
+		<el-dialog
+			title="自定义开奖设置"
+			:visible.sync="customizeDialog"
+			width="60%">
+			<el-form v-loading="customizeLoading" :model="customizeForm" :rules="customizes" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="期数" prop="date">
+					<span>{{customizeForm.date}}</span>
+				</el-form-item>
+				<el-form-item label="首奖" prop="firstPrise.number">
+					<el-input v-model="customizeForm.firstPrise.number"></el-input>
+				</el-form-item>
+				<el-form-item label="二奖" prop="secondPrise.number">
+					<el-input v-model="customizeForm.secondPrise.number"></el-input>
+				</el-form-item>
+				<el-form-item label="三奖" prop="thirdPrise.number">
+					<el-input v-model="customizeForm.thirdPrise.number"></el-input>
+				</el-form-item>
+				<el-form-item label="特别奖">
+					<div class="prizeContainer">
+						<el-button type="text" v-for="(item,index) in customizeForm.speciallyPrise" :key="item._id" @click="change('special',index,item)">{{item.number}}</el-button>
+						<el-button type="primary" v-if="customizeForm.speciallyPrise.length <= 12" @click="add('special')">添加</el-button>
+					</div>
+				</el-form-item>
+				<el-form-item label="安慰奖">
+					<div class="prizeContainer">
+						<el-button type="text" v-for="(item,index) in customizeForm.comfortPrise" :key="item._id" @click="change('comfort',index,item)">{{item.number}}</el-button>
+						<el-button type="primary" v-if="customizeForm.comfortPrise.length <= 9" @click="add('comfort')">添加</el-button>
+					</div>
+				</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="customizeDialog = false">取 消</el-button>
+				<el-button type="primary" @click="confirmCustomize">保 存</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 <script>
 export default {
-		data(){
-				return {
-					hideTip:true,
-					ruleForm:{},
-					rules:{},
-					value7:"",
-					pickerOptions2: {
-						shortcuts: [{
-							text: '最近一周',
-							onClick(picker) {
-								const end = new Date();
-								const start = new Date();
-								start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-								picker.$emit('pick', [start, end]);
-							}
-						}, {
-							text: '最近一个月',
-							onClick(picker) {
-								const end = new Date();
-								const start = new Date();
-								start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-								picker.$emit('pick', [start, end]);
-							}
-						}, {
-							text: '最近三个月',
-							onClick(picker) {
-								const end = new Date();
-								const start = new Date();
-								start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-								picker.$emit('pick', [start, end]);
-							}
-						}]
-					},
-					tableData: [{
-						date: '2016-05-02',
-						name: '王小虎',
-						address: '上海市普陀区金沙江路 1518 弄'
-					}]
-				}
+	data(){
+		return {
+			hideTip:true,
+			ruleForm:{},
+			rules:{},
+			value7:"",
+			pickerOptions2: {
+				shortcuts: [{
+					text: '最近一周',
+					onClick(picker) {
+						const end = new Date();
+						const start = new Date();
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+						picker.$emit('pick', [start, end]);
+					}
+				}, {
+					text: '最近一个月',
+					onClick(picker) {
+						const end = new Date();
+						const start = new Date();
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+						picker.$emit('pick', [start, end]);
+					}
+				}, {
+					text: '最近三个月',
+					onClick(picker) {
+						const end = new Date();
+						const start = new Date();
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+						picker.$emit('pick', [start, end]);
+					}
+				}]
+			},
+			tableData: [{
+				date: '2016-05-02',
+				name: '王小虎',
+				address: '上海市普陀区金沙江路 1518 弄'
+			}],
+			customizeDialog:false,
+			customizeLoading:false,
+			// 自定义
+			customizeForm:{
+				date:new Date().toLocaleDateString().replace("/","-"),
+				firstPrise:{},
+				secondPrise:{},
+				thirdPrise:{},
+				speciallyPrise:[],
+				comfortPrise:[]
+			},
+			customizes:{},
+			// 系统配置
+			conf:{},
+			// 游戏设置
+			gameSettingInfo:{},
 		}
+	},
+	created(){
+		this.$message.info("正在加载系统配置，请稍后");
+		this.checkoutLogin();
+		this.getConf();
+	},
+	computed:{
+		status(){
+			let status = {
+				"0":"暂停开采",
+				"1":"正在开采"
+			}
+			return status[this.conf.status] || "";
+		}
+	},
+	methods:{
+		// 检测登录状态
+		checkoutLogin(){
+			let self = this;
+			self.$axios.get(self.$interfaces.check).then(res=>{
+				console.log(res.data);
+				
+			});
+		},
+		// 获取配置信息
+		getConf(){
+			let self = this;
+			self.$axios.get(self.$interfaces.setting).then(res=>{
+				if(res.data.status == 200){
+					self.conf = res.data.data;
+					self.$message({
+						message:"加载成功",
+						type:"success"
+					});
+				}else{
+					self.$message({
+						message:"系统设置加载失败，请确认服务是否正常",
+						type:"error"
+					});
+				}
+			});
+		},
+		getList(){
+			let self = this;
+			
+		},
+		// 游戏设置
+		gameSetting(){
+
+		},
+		// 直播设置
+		liveConf(){
+			let self = this;
+			if(self.conf.type != 3){
+				self.$message.error("当前系统设置非直播开奖模式，请先修改系统设置");
+				return false;
+			}
+		},
+		// 自定义设置
+		showCustomize(){
+			let self = this;
+			if(self.conf.type != 2){
+				self.$message.error("当前系统设置非自定义开奖模式，请先修改系统设置");
+				return false;
+			}
+			self.customizeDialog = true;
+			self.customizeLoading = true;
+			self.$axios.post(self.$interfaces.list,{pageId:1,pageCount:1}).then(res=>{
+				self.customizeLoading = false;
+				if(res.data.status == 200){
+					self.customizeForm = res.data.data[0];
+					
+				}else{
+					self.$message({
+						message:res.data.msg,
+						type:"error"
+					});
+				}
+			});
+		},
+		// 添加自定义
+		add(type){
+			if(type == 'special'){
+				if(customizeForm.length <= 13){
+					customizeForm.push({number:'请点击输入',date:new Date()});
+				}
+			}
+				
+			
+		},
+		// 修改自定义
+		change(type,index,obj){
+			if(type == 'special'){
+
+			}
+		},
+		// 确认提交
+		confirmCustomize(){
+
+		}
+	}
 }
 </script>

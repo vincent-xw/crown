@@ -60,3 +60,7 @@ typings/
 #mongo
 
 bin/
+
+data/
+
+log/
