@@ -62,12 +62,13 @@ module.exports = function(app){
         }
         res.json(result);
     });
-    // 插入
+    // 插入自定义数据
     app.post('/api/insert', function (req, res) {
         var obj = req.body;
         let data = {
             // _id:new Date(),
             _id:obj.date,
+            type:'customize',
             firstPrise:obj.firstPrise,
             secondPrise:obj.secondPrise,
             thirdPrise:obj.thirdPrise,
@@ -88,26 +89,61 @@ module.exports = function(app){
             
             if(lottery){
                 console.log('已存在');
-                lott.update(data).then((err)=>{
-                    if(err){
-                        console.log(err);
+                lott.update(data).then((obj)=>{
+                    if(obj.nModified == 1){
+                        result.status = "200";
+                        result.msg = "update Successful";
                     }else{
-                        console.log("更新成功");
+                        result.status = "201";
+                        result.msg = "update Unsuccessful";
                     }
                     
                 });
             }else{
                 console.log('不存在');
-                lott.save(data).then((err)=>{
-                    if(err){
-                        console.log(err);
-                        
+                lott.save(data).then((obj)=>{
+                    if(obj.nInserted == 1){
+                        result.status = "200";
+                        result.msg = "insert Successful";
                     }else{
-                        console.log("插入成功");
-                        
+                        result.status = "201";
+                        result.msg = "update Unsuccessful";
                     }
                 });
             }
         });
+    });
+    // 获取数据
+    app.post('/api/info/get', function(req, res, next){
+        var obj = req.body;
+        var result = {
+            "status":500,
+            "msg":"sess"
+        };
+        let Lottery = require("./model/lotteryModel");
+
+        let data = {};
+        if(obj.pageId&&obj.pageCount){
+            data.pageId = obj.pageId;
+            data.pageCount = obj.pageCount;
+        }
+        if(obj.startDate&&obj.endDate){
+            data.startDate = obj.startDate;
+            data.endDate = obj.endDate;
+        }
+        let lottery = new Lottery();
+        lottery.findByDate(data).then((lottery=>{
+            if(lottery){
+                result.status = 200;
+                result.data = lottery;
+                result.msg = "find Successful";
+            }else{
+                result.status = 201;
+                // result.data = lottery;
+                result.msg = "find Unsuccessful";
+            }
+            res.json(result);
+            
+        }));
     });
 }
