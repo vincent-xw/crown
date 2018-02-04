@@ -132,7 +132,7 @@ module.exports = function(app){
             data.endDate = obj.endDate;
         }
         let lottery = new Lottery();
-        lottery.findByDate(data).then((lottery=>{
+        lottery.findByDate(data).then((lottery)=>{
             if(lottery){
                 result.status = 200;
                 result.data = lottery;
@@ -144,7 +144,7 @@ module.exports = function(app){
             }
             res.json(result);
             
-        }));
+        });
     });
     //  获取系统设置
     app.get('/api/setInfo/get', function(req, res, next){
@@ -160,4 +160,28 @@ module.exports = function(app){
             res.json(result);
         });
     });
+    // 修改系统设置
+    app.post('/api/setInfo/update', function(req, res, next){
+        var obj = req.body;
+        let system = require("./model/systemModel");
+        let result = {
+            "status":500,
+            "msg":"sess"
+        };
+        let data = {
+            type:obj.type,
+            status:obj.status
+        }
+        if(data.type && data.status){
+            system.findOneAndUpdate(data).then(data=>{
+                result.msg = "修改成功";
+                result.status = 200;
+                res.json(result);
+            });
+        }else{
+            result.msg = "缺少参数";
+        }
+        
+    });
+    
 }

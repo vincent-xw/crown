@@ -39,8 +39,12 @@ var router = require("./config/router");
 
 router(app,express);
 
-
-
+// 定时任务
+// let schedule = require("./method/schedule");
+// schedule();
+// mock数据
+// let mockData = require("./method/mockData");
+// mockData();
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

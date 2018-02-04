@@ -7,6 +7,7 @@ export default function(){
         check:"/api/checklogin",
         list:"/api/info/get",//获取历史开奖信息
         setting:"/api/setInfo/get",//获取游戏设置
+        update:"/api/setInfo/update",//获取游戏设置
     }
     return interfaces;
     

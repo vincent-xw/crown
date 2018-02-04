@@ -107,6 +107,29 @@
 			</div>
 		</el-row>
 		<el-dialog
+			title="游戏设置"
+			:visible.sync="settingVisible"
+			width="30%"
+			:before-close="handleClose">
+			<el-form :model="settingForm" :rules="settingRules" ref="settingForm" label-width="100px" class="demo-settingForm">
+				<el-form-item label="开奖模式" prop="type">
+					<el-select v-model="settingForm.type" placeholder="请选择活动区域">
+						<el-option label="系统开奖" value="1"></el-option>
+						<el-option label="自定义开奖" value="2"></el-option>
+						<el-option label="直播开奖" value="3"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="开采状态" prop="status">
+					<el-radio v-model="settingForm.status" label="1">开采</el-radio>
+  					<el-radio v-model="settingForm.status" label="0">暂停</el-radio>
+				</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="settingVisible = false">取 消</el-button>
+				<el-button type="primary" @click="confirmSetting">确 定</el-button>
+			</span>
+		</el-dialog>
+		<el-dialog
 			title="自定义开奖设置"
 			:visible.sync="customizeDialog"
 			width="60%">
@@ -197,8 +220,13 @@ export default {
 			customizes:{},
 			// 系统配置
 			conf:{},
+			settingVisible:false,
 			// 游戏设置
 			gameSettingInfo:{},
+			settingForm:{},
+			settingRules:{
+
+			},
 		}
 	},
 	created(){
@@ -248,7 +276,13 @@ export default {
 		},
 		// 游戏设置
 		gameSetting(){
-
+			let self = this;
+			self.settingVisible = true;
+		},
+		// 提交游戏设置
+		confirmSetting(){
+			let self = this;
+			
 		},
 		// 直播设置
 		liveConf(){
