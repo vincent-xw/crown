@@ -30,7 +30,7 @@
 				<el-form :model="ruleForm" :inline="true" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="时间" prop="time">
 						<el-date-picker
-							v-model="value7"
+							v-model="ruleForm.date"
 							type="daterange"
 							align="right"
 							unlink-panels
@@ -39,6 +39,9 @@
 							end-placeholder="结束日期"
 							:picker-options="pickerOptions2">
 						</el-date-picker>
+					</el-form-item>
+					<el-form-item label="" prop="time">
+						<el-button type="primary" @click="search()">搜索</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -58,49 +61,66 @@
 		<el-row>
 			<div class="container">
 				<el-table
+					v-loading="loading"
 					:data="tableData"
 					stripe
 					style="width: 100%">
 					<el-table-column
+						align="center"
+						prop="period"
+						label="期数">
+					</el-table-column>
+					<el-table-column
+						align="center"
 						prop="date"
-						label="期数"
-						width="180">
+						:formatter="formatDate"
+						label="开奖时间">
 					</el-table-column>
 					<el-table-column
-						prop="name"
-						label="开奖时间"
-						width="180">
-					</el-table-column>
-					<el-table-column
-						prop="address"
+						align="center"
+						prop="first"
 						label="头奖">
 					</el-table-column>
 					<el-table-column
-						prop="address"
+						align="center"
+						prop="second"
 						label="二奖">
 					</el-table-column>
 					<el-table-column
-						prop="address"
+						align="center"
+						prop="third"
 						label="三奖">
 					</el-table-column>
 					<el-table-column
-						prop="address"
+						align="center"
+						width="450"
+						prop="special"
+						:formatter="formatNumber"
 						label="特别奖">
 					</el-table-column>
 					<el-table-column
-						prop="address"
+						align="center"
+						width="450"
+						prop="comfort"
+						:formatter="formatNumber"
 						label="安慰奖">
 					</el-table-column>
 					<el-table-column
-						prop="address"
+						align="center"
+						
 						label="操作">
+						<template slot-scope="scope">
+							<el-button type="text">查看</el-button>
+						</template>
 					</el-table-column>
 				</el-table>
 				<div class="container text-center">
 					<el-pagination
 						background
 						layout="prev, pager, next"
-						:total="100" :page-size="5">
+						:total="total" :page-size="pageCount"
+						@current-change="handleCurrentChange"
+						:current-page.sync="currentPage">
 					</el-pagination>
 				</div>
 				
@@ -109,8 +129,7 @@
 		<el-dialog
 			title="游戏设置"
 			:visible.sync="settingVisible"
-			width="30%"
-			:before-close="handleClose">
+			width="30%">
 			<el-form :model="settingForm" :rules="settingRules" ref="settingForm" label-width="100px" class="demo-settingForm">
 				<el-form-item label="开奖模式" prop="type">
 					<el-select v-model="settingForm.type" placeholder="请选择活动区域">
@@ -201,11 +220,11 @@ export default {
 					}
 				}]
 			},
-			tableData: [{
-				date: '2016-05-02',
-				name: '王小虎',
-				address: '上海市普陀区金沙江路 1518 弄'
-			}],
+			currentPage:1,
+			total:1,
+			pageCount:10,
+			loading:true,
+			tableData: [],
 			customizeDialog:false,
 			customizeLoading:false,
 			// 自定义
@@ -233,6 +252,7 @@ export default {
 		this.$message.info("正在加载系统配置，请稍后");
 		this.checkoutLogin();
 		this.getConf();
+		this.search();
 	},
 	computed:{
 		status(){
@@ -244,6 +264,45 @@ export default {
 		}
 	},
 	methods:{
+		// 格式化日期
+		formatDate(row,col){
+			return new Date(row.date).toLocaleDateString();
+		},
+		// 格式化数据
+		formatNumber(row,col){
+			return row[col.property].join(",");
+		},
+		// 加载数据
+		search(page){
+			let self = this;
+			self.loading = true;
+			let data = {
+				pageId:1,
+				pageCount:self.pageCount,
+				startDate:new Date(new Date()-604800000).toLocaleDateString().replace(/\//g,"-"),
+				endDate:new Date().toLocaleDateString().replace(/\//g,"-")
+			};
+			if(self.ruleForm.date && self.ruleForm.date.length != 0){
+				data.startDate = new Date(self.ruleForm.date[0]).toLocaleDateString().replace(/\//g,"-")
+				data.endDate = new Date(self.ruleForm.date[1]).toLocaleDateString().replace(/\//g,"-")
+			}
+			if(page){
+				data.pageId = page.pageId
+			}
+			self.$axios.post(self.$interfaces.list,data).then((res)=>{
+				self.loading = false;
+				if(res.data.status == 200){
+					self.tableData = res.data.data;
+					self.currentPage = res.data.pageId;
+					self.total = res.data.total;
+				}
+			});;
+		},
+		// 切换分页
+		handleCurrentChange(value){
+			this.search({pageId:value});
+			
+		},
 		// 检测登录状态
 		checkoutLogin(){
 			let self = this;

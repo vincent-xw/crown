@@ -118,7 +118,8 @@ module.exports = function(app){
         var obj = req.body;
         var result = {
             "status":500,
-            "msg":"sess"
+            data:[],
+            "msg":""
         };
         let Lottery = require("./model/lotteryModel");
 
@@ -131,18 +132,46 @@ module.exports = function(app){
             data.startDate = obj.startDate;
             data.endDate = obj.endDate;
         }
-        let lottery = new Lottery();
-        lottery.findByDate(data).then((lottery)=>{
+        let Olottery = new Lottery();
+        Olottery.findByDate(data).then((lottery)=>{
             if(lottery){
-                result.status = 200;
-                result.data = lottery;
-                result.msg = "find Successful";
+                let dataCount = {};
+                if(data.startDate&&data.endDate){
+                    dataCount.startDate = data.startDate;
+                    dataCount.endDate = data.endDate;
+                } 
+                Lottery.count({"_id":{$gte:new Date(dataCount.startDate),$lte:new Date(dataCount.endDate)}}).then(lotteryCount=>{
+                    console.log(lotteryCount);
+                    result.status = 200;
+                    result.total = lotteryCount;
+                    result.pageId = data.pageId || 1;
+                    for(let i = 0; i < lottery.length; i ++){
+                        let temp = {
+                            period:new Date(lottery[i].date).toLocaleDateString().replace(/-/g,""),
+                            date:lottery[i].date,
+                            first:lottery[i].firstPrise.number,
+                            second:lottery[i].secondPrise.number,
+                            third:lottery[i].thirdPrise.number,
+                            special:[],
+                            comfort:[]
+                        };
+                        for(let j = 0; j < lottery[i].speciallyPrise.length; j++){
+                            temp.special.push(lottery[i].speciallyPrise[j].number);
+                        }
+                        for(let k = 0; k <  lottery[i].comfortPrise.length; k++){
+                            temp.comfort.push(lottery[i].comfortPrise[k].number);
+                        }
+                        result.data.push(temp);
+                    }
+                    result.msg = "find Successful";
+                    res.json(result);
+                });
             }else{
                 result.status = 201;
                 // result.data = lottery;
                 result.msg = "find Unsuccessful";
+                res.json(result);
             }
-            res.json(result);
             
         });
     });
