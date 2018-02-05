@@ -130,9 +130,11 @@
 			title="游戏设置"
 			:visible.sync="settingVisible"
 			width="30%">
+			<h3>注意:实际效果以保存操作后为准，请刷新页面后查看最新系统状态信息</h3>
+			<br>
 			<el-form :model="settingForm" :rules="settingRules" ref="settingForm" label-width="100px" class="demo-settingForm">
 				<el-form-item label="开奖模式" prop="type">
-					<el-select v-model="settingForm.type" placeholder="请选择活动区域">
+					<el-select v-model="settingForm.type" placeholder="请选择开奖模式">
 						<el-option label="系统开奖" value="1"></el-option>
 						<el-option label="自定义开奖" value="2"></el-option>
 						<el-option label="直播开奖" value="3"></el-option>
@@ -145,7 +147,7 @@
 			</el-form>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="settingVisible = false">取 消</el-button>
-				<el-button type="primary" @click="confirmSetting">确 定</el-button>
+				<el-button type="primary" @click="confirmSetting" :loading="settingLoading">确 定</el-button>
 			</span>
 		</el-dialog>
 		<el-dialog
@@ -167,13 +169,13 @@
 				</el-form-item>
 				<el-form-item label="特别奖">
 					<div class="prizeContainer">
-						<el-button type="text" v-for="(item,index) in customizeForm.speciallyPrise" :key="item._id" @click="change('special',index,item)">{{item.number}}</el-button>
+						<el-button type="text" v-for="(item,index) in customizeForm.speciallyPrise" :key="item._id" @click="change('special',index,item.number)">{{item.number}}</el-button>
 						<el-button type="primary" v-if="customizeForm.speciallyPrise.length <= 12" @click="add('special')">添加</el-button>
 					</div>
 				</el-form-item>
 				<el-form-item label="安慰奖">
 					<div class="prizeContainer">
-						<el-button type="text" v-for="(item,index) in customizeForm.comfortPrise" :key="item._id" @click="change('comfort',index,item)">{{item.number}}</el-button>
+						<el-button type="text" v-for="(item,index) in customizeForm.comfortPrise" :key="item._id" @click="change('comfort',index,item.number)">{{item.number}}</el-button>
 						<el-button type="primary" v-if="customizeForm.comfortPrise.length <= 9" @click="add('comfort')">添加</el-button>
 					</div>
 				</el-form-item>
@@ -238,11 +240,10 @@ export default {
 			},
 			customizes:{},
 			// 系统配置
-			conf:{},
 			settingVisible:false,
-			// 游戏设置
 			gameSettingInfo:{},
 			settingForm:{},
+			settingLoading:false,
 			settingRules:{
 
 			},
@@ -260,7 +261,7 @@ export default {
 				"0":"暂停开采",
 				"1":"正在开采"
 			}
-			return status[this.conf.status] || "";
+			return status[this.settingForm.status] || "";
 		}
 	},
 	methods:{
@@ -316,7 +317,7 @@ export default {
 			let self = this;
 			self.$axios.get(self.$interfaces.setting).then(res=>{
 				if(res.data.status == 200){
-					self.conf = res.data.data;
+					self.settingForm = res.data.data;
 					self.$message({
 						message:"加载成功",
 						type:"success"
@@ -341,29 +342,64 @@ export default {
 		// 提交游戏设置
 		confirmSetting(){
 			let self = this;
-			
+			self.settingLoading = true;
+			let data = {
+				type:self.settingForm.type,
+				status:self.settingForm.status
+			}
+			self.$axios.post(self.$interfaces.update,data).then(res=>{
+				self.settingLoading = false;
+				self.settingVisible = false;
+				if(res.data.status == 200){
+					self.$message.success("修改成功");
+					window.location.reload(true);
+				}else{
+					self.$message.error("修改失败");
+				}
+			});
 		},
 		// 直播设置
 		liveConf(){
 			let self = this;
-			if(self.conf.type != 3){
+			if(self.settingForm.type != 3){
 				self.$message.error("当前系统设置非直播开奖模式，请先修改系统设置");
 				return false;
 			}
 		},
-		// 自定义设置
+		// 初始化period
+		initPeriod(){
+			let date = new Date();
+					
+			let month =  date.getMonth()>9?date.getMonth()+1:"0"+(date.getMonth()+1);
+			let day = date.getDate()>9?date.getDate():"0"+date.getDate();
+
+			return date.getFullYear()+ month + day;
+		},
+		// 获取自定义设置
 		showCustomize(){
 			let self = this;
-			if(self.conf.type != 2){
+			if(self.settingForm.type != 2){
 				self.$message.error("当前系统设置非自定义开奖模式，请先修改系统设置");
 				return false;
 			}
 			self.customizeDialog = true;
 			self.customizeLoading = true;
-			self.$axios.post(self.$interfaces.list,{pageId:1,pageCount:1}).then(res=>{
+			self.$axios.get(self.$interfaces.customizeGet).then(res=>{
 				self.customizeLoading = false;
 				if(res.data.status == 200){
-					self.customizeForm = res.data.data[0];
+					if(res.data.data == null){
+						self.customizeForm = {
+							date:self.initPeriod(),
+							firstPrise:{},
+							secondPrise:{},
+							thirdPrise:{},
+							speciallyPrise:[],
+							comfortPrise:[]
+						};
+					}else{
+						self.customizeForm = res.data.data;
+					}
+					
 					
 				}else{
 					self.$message({
@@ -373,25 +409,85 @@ export default {
 				}
 			});
 		},
-		// 添加自定义
+		// 添加自定义号码
 		add(type){
+			let self = this;
 			if(type == 'special'){
-				if(customizeForm.length <= 13){
-					customizeForm.push({number:'请点击输入',date:new Date()});
+				if(self.customizeForm.speciallyPrise.length <= 13){
+					self.customizeForm.speciallyPrise.push({number:'请点击输入',date:new Date()});
+				}
+			}else{
+				if(self.customizeForm.comfortPrise.length <= 13){
+					self.customizeForm.comfortPrise.push({number:'请点击输入',date:new Date()});
 				}
 			}
+		},
+		// 修改自定义号码
+		change(type,index,obj){
+			let self = this;
+			this.$prompt('请输入号码', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				inputPattern: /^\d{4,4}$/,
+				inputValue:obj=="请点击输入"?"":obj,
+				inputErrorMessage: '号码格式不正确'
+			}).then(({ value }) => {
+				if(type == 'special'){
+					self.customizeForm.speciallyPrise[index].number = value;
+				}else{
+					self.customizeForm.comfortPrise[index].number = value;
+				}
+				console.log(self.customizeForm);
 				
+			}).catch((error) => {
+				console.log(error);
+				
+				this.$message({
+					type: 'info',
+					message: '取消输入'
+				});       
+			});
 			
 		},
-		// 修改自定义
-		change(type,index,obj){
-			if(type == 'special'){
-
+		// 验证自定义form
+		validForm(){
+			let self = this;
+			for(let item in self.customizeForm){
+				if(self.customizeForm[item] instanceof Array){
+					for(let item2 in self.customizeForm[item]){
+						if(self.customizeForm[item][item2].number == "请点击输入" || self.customizeForm[item][item2].number == ""){
+							this.$alert(item+'的第'+item2+'个号码未设定！', '错误', {
+								confirmButtonText: '确定',
+							});
+							return false;
+						}
+						
+					}
+				}
 			}
+			if(self.customizeForm.speciallyPrise.length != 13){
+				this.$alert('speciallyPrise的数量不够', '错误', {
+					confirmButtonText: '确定',
+				});
+			}
+			if(self.customizeForm.comfortPrise.length != 10){
+				this.$alert('comfortPrise的数量不够', '错误', {
+					confirmButtonText: '确定',
+				});
+			}
+			return true;
+			
 		},
 		// 确认提交
 		confirmCustomize(){
-
+			let self = this;
+			if(this.validForm()){
+				console.log("通过");
+				
+			}else{
+				console.log("未通过");
+				
+			}
 		}
 	}
 }

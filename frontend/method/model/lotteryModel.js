@@ -3,6 +3,10 @@ var Schema      = mongoose.Schema;
 
 var lotterySchema = new Schema({
     _id: Date,
+    period: {
+        type: String,
+        default: initPeriod()
+    },
     date: { type: Date, default: Date.now },//开奖时间
     type: String,//开奖类型
     firstPrise: {// 一等奖
@@ -35,7 +39,14 @@ var lotterySchema = new Schema({
         }
     ]
 });
+function initPeriod(val){
+    let date = new Date(val);
+			
+    let month =  date.getMonth()>9?date.getMonth()+1:"0"+(date.getMonth()+1);
+    let day = date.getDate()>9?date.getDate():"0"+date.getDate();
 
+    return date.getFullYear()+ month + day;
+}
 lotterySchema.methods.findByDate = function(dateObj,cb){
     if(!dateObj || dateObj == {}){  
         return this.model('Lottery').find().limit(1).sort({"_id":-1});

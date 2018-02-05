@@ -8,6 +8,7 @@ export default function(){
         list:"/api/info/get",//获取历史开奖信息
         setting:"/api/setInfo/get",//获取游戏设置
         update:"/api/setInfo/update",//获取游戏设置
+        customizeGet:"/api/customize/get",//获取自定义配置
     }
     return interfaces;
     

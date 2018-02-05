@@ -3,12 +3,12 @@ var Schema      = mongoose.Schema;
 
 var systemSchema = new Schema({
     type: {// 开奖模式
-        type: Number,//1.系统开采，2.自定义开采，3.直播开采
+        type: String,//1.系统开采，2.自定义开采，3.直播开采
         required: true,
         default:1
     },
     status: {// 开采状态
-        type: Number,//1.正在开采，0.暂停开采
+        type: String,//1.正在开采，0.暂停开采
         required: true,
         default:1
     }

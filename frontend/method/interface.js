@@ -62,8 +62,31 @@ module.exports = function(app){
         }
         res.json(result);
     });
+    // 获取自定义配置
+    app.get('/api/customize/get', function( req, res){
+        let Customize = require("./model/customizeModel");
+        let date = new Date();
+        customize = new Customize();
+        Customize.findOne({date:date}).then(cust=>{
+            console.log(cust);
+            
+            let result = {
+                status:"200",
+                data:cust,
+                msg:""
+            }
+            res.json(result);
+        },err=>{
+            console.log(err);
+            let result = {
+                status:"500",
+                msg:""
+            }
+            res.json(result);
+        });
+    });
     // 插入自定义数据
-    app.post('/api/insert', function (req, res) {
+    app.post('/api/customize/update', function (req, res) {
         var obj = req.body;
         let data = {
             // _id:new Date(),
@@ -141,13 +164,12 @@ module.exports = function(app){
                     dataCount.endDate = data.endDate;
                 } 
                 Lottery.count({"_id":{$gte:new Date(dataCount.startDate),$lte:new Date(dataCount.endDate)}}).then(lotteryCount=>{
-                    console.log(lotteryCount);
                     result.status = 200;
                     result.total = lotteryCount;
                     result.pageId = data.pageId || 1;
                     for(let i = 0; i < lottery.length; i ++){
                         let temp = {
-                            period:new Date(lottery[i].date).toLocaleDateString().replace(/-/g,""),
+                            period:lottery[i].period,
                             date:lottery[i].date,
                             first:lottery[i].firstPrise.number,
                             second:lottery[i].secondPrise.number,
