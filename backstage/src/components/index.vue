@@ -155,23 +155,36 @@
 			:visible.sync="customizeDialog"
 			width="60%">
 			<el-form v-loading="customizeLoading" :model="customizeForm" :rules="customizes" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="期数" prop="date">
-					<span>{{customizeForm.date}}</span>
+				<el-form-item label="期数" prop="period">
+					<span>{{customizeForm.period}}</span>
 				</el-form-item>
 				<el-form-item label="首奖" prop="firstPrise.number">
-					<el-input v-model="customizeForm.firstPrise.number"></el-input>
+					<h3 >{{customizeForm.firstPrise.number}}</h3>
 				</el-form-item>
 				<el-form-item label="二奖" prop="secondPrise.number">
-					<el-input v-model="customizeForm.secondPrise.number"></el-input>
+					<h3 >{{customizeForm.secondPrise.number}}</h3>
 				</el-form-item>
 				<el-form-item label="三奖" prop="thirdPrise.number">
-					<el-input v-model="customizeForm.thirdPrise.number"></el-input>
+					<h3 >{{customizeForm.thirdPrise.number}}</h3>
 				</el-form-item>
 				<el-form-item label="特别奖">
 					<div class="prizeContainer">
-						<el-button type="text" v-for="(item,index) in customizeForm.speciallyPrise" :key="item._id" @click="change('special',index,item.number)">{{item.number}}</el-button>
+						<el-button type="text" v-for="(item,index) in customizeForm.speciallyPrise" :key="item._id" @click="showPopover(index,item.number)">{{(item.is1Selected || item.is2Selected || item.is3Selected)?"----":item.number}}</el-button>
 						<el-button type="primary" v-if="customizeForm.speciallyPrise.length <= 12" @click="add('special')">添加</el-button>
 					</div>
+					<el-popover
+						ref="popover5"
+						placement="top"
+						width="360"
+						v-model="visible2">
+						<p>请选择修改号码或者选择成为首/二/三奖</p>
+						<div style="text-align: right; margin: 0">
+							<el-button size="mini" type="text" @click="updatePop()">修改</el-button>
+							<el-button type="primary" size="mini" @click="choosePop(1)">首奖</el-button>
+							<el-button type="primary" size="mini" @click="choosePop(2)">二奖</el-button>
+							<el-button type="primary" size="mini" @click="choosePop(3)">三奖</el-button>
+						</div>
+					</el-popover>
 				</el-form-item>
 				<el-form-item label="安慰奖">
 					<div class="prizeContainer">
@@ -239,6 +252,11 @@ export default {
 				comfortPrise:[]
 			},
 			customizes:{},
+			visible2:false,
+			selected : {
+				value:"",
+				index:"",
+			},
 			// 系统配置
 			settingVisible:false,
 			gameSettingInfo:{},
@@ -398,6 +416,9 @@ export default {
 						};
 					}else{
 						self.customizeForm = res.data.data;
+						self.customizeForm.speciallyPrise[self.customizeForm.firstPrise.index].is1Selected = true;
+						self.customizeForm.speciallyPrise[self.customizeForm.secondPrise.index].is2Selected = true;
+						self.customizeForm.speciallyPrise[self.customizeForm.thirdPrise.index].is3Selected = true;
 					}
 					
 					
@@ -414,7 +435,7 @@ export default {
 			let self = this;
 			if(type == 'special'){
 				if(self.customizeForm.speciallyPrise.length <= 13){
-					self.customizeForm.speciallyPrise.push({number:'请点击输入',date:new Date()});
+					self.customizeForm.speciallyPrise.push({number:'请点击输入',date:new Date(),is1Selected:false,is2Selected:false,is3Selected:false});
 				}
 			}else{
 				if(self.customizeForm.comfortPrise.length <= 13){
@@ -437,7 +458,6 @@ export default {
 				}else{
 					self.customizeForm.comfortPrise[index].number = value;
 				}
-				console.log(self.customizeForm);
 				
 			}).catch((error) => {
 				console.log(error);
@@ -448,6 +468,60 @@ export default {
 				});       
 			});
 			
+		},
+		// 弹popover
+		showPopover(index,value){
+			let self= this;
+			if(value == "请点击输入"){
+				self.change("special",index,value);
+			}else{
+				self.selected.value = value;
+				self.selected.index = index;
+				self.visible2 = true;
+			}
+		},
+		// pop修改
+		updatePop(){
+			let self = this;
+			this.change("special",self.selected.index,self.selected.value);
+		},
+		// pop选择奖
+		choosePop(val){
+			let self = this;
+			if(val == 1){
+				self.customizeForm.firstPrise = {
+					number:self.selected.value,
+					date:new Date(),
+					index:self.selected.index
+				}
+				for(let i = 0; i < self.customizeForm.speciallyPrise.length; i ++){
+					self.customizeForm.speciallyPrise[i].is1Selected = false;
+				}
+				self.customizeForm.speciallyPrise[self.selected.index].is1Selected = true;
+				self.visible2 = false;
+			}else if(val == 2){
+				self.customizeForm.secondPrise = {
+					number:self.selected.value,
+					date:new Date(),
+					index:self.selected.index
+				}
+				for(let i = 0; i < self.customizeForm.speciallyPrise.length; i ++){
+					self.customizeForm.speciallyPrise[i].is2Selected = false;
+				}
+				self.customizeForm.speciallyPrise[self.selected.index].is2Selected = true;
+				self.visible2 = false;
+			}else{
+				self.customizeForm.thirdPrise = {
+					number:self.selected.value,
+					date:new Date(),
+					index:self.selected.index
+				}
+				for(let i = 0; i < self.customizeForm.speciallyPrise.length; i ++){
+					self.customizeForm.speciallyPrise[i].is3Selected = false;
+				}
+				self.customizeForm.speciallyPrise[self.selected.index].is3Selected = true;
+				self.visible2 = false;
+			}
 		},
 		// 验证自定义form
 		validForm(){
@@ -465,15 +539,35 @@ export default {
 					}
 				}
 			}
+			if(self.customizeForm.firstPrise.number == undefined || self.customizeForm.firstPrise.number == ""){
+				this.$alert('首奖未设置', '错误', {
+					confirmButtonText: '确定',
+				});
+				return false;
+			}
+			if(self.customizeForm.secondPrise.number == undefined || self.customizeForm.secondPrise.number == ""){
+				this.$alert('二奖未设置', '错误', {
+					confirmButtonText: '确定',
+				});
+				return false;
+			}
+			if(self.customizeForm.thirdPrise.number == undefined || self.customizeForm.thirdPrise.number == ""){
+				this.$alert('三奖未设置', '错误', {
+					confirmButtonText: '确定',
+				});
+				return false;
+			}
 			if(self.customizeForm.speciallyPrise.length != 13){
 				this.$alert('speciallyPrise的数量不够', '错误', {
 					confirmButtonText: '确定',
 				});
+				return false;
 			}
 			if(self.customizeForm.comfortPrise.length != 10){
 				this.$alert('comfortPrise的数量不够', '错误', {
 					confirmButtonText: '确定',
 				});
+				return false;
 			}
 			return true;
 			
@@ -482,10 +576,32 @@ export default {
 		confirmCustomize(){
 			let self = this;
 			if(this.validForm()){
-				console.log("通过");
+				
+				let data = {
+					date:new Date().toLocaleDateString().replace(/\//g,'-'),
+					period:self.customizeForm.date,
+					firstPrise:self.customizeForm.firstPrise,
+					secondPrise:self.customizeForm.secondPrise,
+					thirdPrise:self.customizeForm.thirdPrise,
+					speciallyPrise:self.customizeForm.speciallyPrise,
+					comfortPrise:self.customizeForm.comfortPrise,
+				}
+				console.log(data);
+				self.$axios.post(self.$interfaces.customizeUpdate,data).then(res=>{
+					self.customizeDialog = false;
+					if(res.data.status == 200){
+						self.$message.success("提交成功");
+					}else if(res.data.status == 201){
+						self.$message.success("请求成功，未做任何修改");
+					}else{
+						self.$message.error("提交失败");
+					}
+				});
 				
 			}else{
-				console.log("未通过");
+				this.$alert('表单校验未通过', '错误', {
+					confirmButtonText: '确定',
+				});
 				
 			}
 		}

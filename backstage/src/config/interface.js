@@ -9,6 +9,7 @@ export default function(){
         setting:"/api/setInfo/get",//获取游戏设置
         update:"/api/setInfo/update",//获取游戏设置
         customizeGet:"/api/customize/get",//获取自定义配置
+        customizeUpdate:"/api/customize/update",//修改自定义配置
     }
     return interfaces;
     

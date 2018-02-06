@@ -10,12 +10,15 @@ var customizeSchema = new Schema({
     date: { type: Date, default: Date.now },//设置/更新时间
     firstPrise: {// 一等奖
         number: String,
+        index:Number
     },
     secondPrise: {// 二等奖
         number: String,
+        index:Number
     },
     thirdPrise: {// 三等奖
         number: String,
+        index:Number
     },
     speciallyPrise: [
         {

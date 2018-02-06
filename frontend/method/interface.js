@@ -65,9 +65,11 @@ module.exports = function(app){
     // 获取自定义配置
     app.get('/api/customize/get', function( req, res){
         let Customize = require("./model/customizeModel");
-        let date = new Date();
+        let date = new Date().toLocaleDateString().replace(/\//g,'-');
         customize = new Customize();
-        Customize.findOne({date:date}).then(cust=>{
+        console.log(date);
+        
+        Customize.findOne({_id:date}).then(cust=>{
             console.log(cust);
             
             let result = {
@@ -91,6 +93,7 @@ module.exports = function(app){
         let data = {
             // _id:new Date(),
             _id:obj.date,
+            period:obj.period,
             type:'customize',
             firstPrise:obj.firstPrise,
             secondPrise:obj.secondPrise,
@@ -102,29 +105,34 @@ module.exports = function(app){
             "status":500,
             "msg":"error"
         };
-        let Lottery = require("./model/lotteryModel");
+        let Customize = require("./model/customizeModel");
 
-        let lott = new Lottery(data);
+        let cust = new Customize(data);
         
 
-        Lottery.findOne({"_id":obj.date}).then((lottery)=>{
+        Customize.findOne({"_id":obj.date}).then((customize)=>{
             
             
-            if(lottery){
+            if(customize){
                 console.log('已存在');
-                lott.update(data).then((obj)=>{
+                cust.update(data).then((obj)=>{
+                    console.log(obj);
+                    
                     if(obj.nModified == 1){
                         result.status = "200";
                         result.msg = "update Successful";
+                    }else if(obj.ok == 1 && obj.nModified == 0){
+                        result.status = "201";
+                        result.msg = "not update";
                     }else{
                         result.status = "201";
-                        result.msg = "update Unsuccessful";
+                        result.msg = "update unSuccessful";
                     }
-                    
+                    res.json(result);
                 });
             }else{
                 console.log('不存在');
-                lott.save(data).then((obj)=>{
+                cust.save(data).then((obj)=>{
                     if(obj.nInserted == 1){
                         result.status = "200";
                         result.msg = "insert Successful";
@@ -132,6 +140,7 @@ module.exports = function(app){
                         result.status = "201";
                         result.msg = "update Unsuccessful";
                     }
+                    res.json(result);
                 });
             }
         });
