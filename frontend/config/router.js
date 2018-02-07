@@ -5,22 +5,30 @@ module.exports = function(app,express){
 
     pageRoute.route('/')
         .get(function(req, res){
-            res.render("index",{'index':true,data:language[req.params.language]});
+            let date = new Date().toLocaleDateString().replace(/\//g,"-");
+            require("../method/getData")({date:date},(data)=>{
+                console.log(data);
+                
+                res.render("index",{'index':true,data:language[(req.baseUrl).substr(1)],dataObj:data.data});
+            });
+            
+            
         })
     pageRoute.route('/aboutus')
         .get(function(req, res){
+
             var lan = req.params;
-            res.render("about",{'about':true,data:language[req.params.language]});
+            res.render("about",{'about':true,data:language[(req.baseUrl).substr(1)]});
         })
     pageRoute.route('/contactus')
         .get(function(req, res){
             var lan = req.params;
-            res.render("contact",{'contact':true,data:language[req.params.language]});
+            res.render("contact",{'contact':true,data:language[(req.baseUrl).substr(1)]});
         });
     pageRoute.route('*')
         .get(function(req, res){
             var lan = req.params;
-            res.render("contact",{'contact':true,data:language[req.params.language]});
+            res.render("contact",{'contact':true,data:language[(req.baseUrl).substr(1)]});
         });
     app.use('/zh_cn/', pageRoute);
     app.use('/en_us/', pageRoute);

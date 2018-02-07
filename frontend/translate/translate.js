@@ -2,6 +2,15 @@ module.exports = {
     zh_cn:{
         index:{
             title:"首页",
+            gameTitle:"皇冠4D彩票",
+            period:"期开奖结果",
+            nextTip:"下期开奖倒计时:",
+            first:"首奖",
+            second:"二奖",
+            third:"三奖",
+            special:"特殊奖",
+            comfort:"安慰奖",
+            copyRight:"Copyright © 2010 - 2018 - All Rights Reserved"
         },
         aboutus:{
             title:"关于我们",
@@ -13,6 +22,15 @@ module.exports = {
     en_us:{
         index:{
             title:"homePage",
+            gameTitle:"皇冠4D彩票",
+            period:"期开奖结果",
+            nextTip:"下期开奖倒计时:",
+            first:"首奖",
+            second:"二奖",
+            third:"三奖",
+            special:"特殊奖",
+            comfort:"安慰奖",
+            copyRight:"Copyright © 2010 - 2018 - All Rights Reserved"
         },
         aboutus:{
             title:"aboutUs",
@@ -24,6 +42,15 @@ module.exports = {
     my:{
         index:{
             title:"rumah",
+            gameTitle:"皇冠4D彩票",
+            period:"期开奖结果",
+            nextTip:"下期开奖倒计时:",
+            first:"首奖",
+            second:"二奖",
+            third:"三奖",
+            special:"特殊奖",
+            comfort:"安慰奖",
+            copyRight:"Copyright © 2010 - 2018 - All Rights Reserved"
         },
         aboutus:{
             title:"mengenaiKami",

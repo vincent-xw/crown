@@ -25,9 +25,12 @@ app.set('view engine', 'html');
 
 hbs.registerPartials(__dirname + '/views/partials');
 
+// 加载helper
+require("./config/hbs_helper")(hbs);
 // 运行hbs模块
 app.engine('html', hbs.__express);
 
+app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + '/static'));
 
 // 加载接口
