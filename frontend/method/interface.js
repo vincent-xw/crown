@@ -234,6 +234,7 @@ module.exports = function(app){
             type:obj.type,
             status:obj.status
         }
+        let oSystem = new system(data);
         if(data.type && data.status){
             system.findOneAndUpdate(data).then(data=>{
                 if(data){
@@ -241,7 +242,7 @@ module.exports = function(app){
                     result.status = 200;
                     res.json(result);
                 }else{
-                    system.save().then(res=>{
+                    oSystem.save().then(res=>{
                         result.msg = "新增成功";
                         result.status = 200;
                         res.json(result);
