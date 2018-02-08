@@ -377,7 +377,7 @@ export default {
 			let self = this;
 			self.$axios.get(self.$interfaces.setting).then(res=>{
 				if(res.data.status == 200){
-					self.settingForm = res.data.data;
+					self.settingForm = res.data.data[0];
 					self.$message({
 						message:"加载成功",
 						type:"success"
