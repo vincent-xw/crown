@@ -215,6 +215,8 @@ module.exports = function(app){
             "msg":"sess"
         };
         system.findOne().then(data=>{
+            console.log(data);
+            
             result.data = data;
             result.status = 200;
             res.json(result);

@@ -48,7 +48,7 @@ module.exports = ()=>{
             let lottery1 = new Lottery(obj1);
             lottery1.save().then(function(res){
                 
-                    console.log(res);
+                    // console.log(res);
                 
             });
             
