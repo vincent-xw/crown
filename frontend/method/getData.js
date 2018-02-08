@@ -12,9 +12,7 @@ module.exports = (obj,cb)=>{
                 data:lottery
             }
         }else{
-            result = {
-                data:[]
-            }
+            result = null;
         }
         cb(result);
         

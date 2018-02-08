@@ -1,3 +1,5 @@
+import { isNull } from 'util';
+
 module.exports = function(app,express){
     var pageRoute = express.Router({ mergeParams: true });
     var language = require('../translate/translate');
@@ -8,7 +10,15 @@ module.exports = function(app,express){
             let date = new Date().toLocaleDateString().replace(/\//g,"-");
             require("../method/getData")({date:date},(data)=>{
                 console.log(data);
-                
+                if(isNull(data)){
+                    data = {
+                        firstPrize:{},
+                        secondPrize:{},
+                        thirdPrize:{},
+                        comfortPrise:[],
+                        speciallyPrise:[],
+                    }
+                }
                 res.render("index",{'index':true,data:language[(req.baseUrl).substr(1)],dataObj:data.data});
             });
             
