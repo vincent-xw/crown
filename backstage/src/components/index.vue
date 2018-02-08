@@ -110,7 +110,7 @@
 						
 						label="操作">
 						<template slot-scope="scope">
-							<el-button type="text">查看</el-button>
+							<el-button type="text" @click="detail(scope.row)">查看</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -198,6 +198,38 @@
 				<el-button type="primary" @click="confirmCustomize">保 存</el-button>
 			</span>
 		</el-dialog>
+		<el-dialog
+			title="历史开奖详情"
+			:visible.sync="detailDialog"
+			width="60%">
+			<el-form :model="tempForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="期数" prop="period">
+					<span>{{tempForm.period}}</span>
+				</el-form-item>
+				<el-form-item label="首奖" prop="first">
+					<h3 >{{tempForm.first}}</h3>
+				</el-form-item>
+				<el-form-item label="二奖" prop="second">
+					<h3 >{{tempForm.second}}</h3>
+				</el-form-item>
+				<el-form-item label="三奖" prop="third">
+					<h3 >{{tempForm.third}}</h3>
+				</el-form-item>
+				<el-form-item label="特别奖">
+					<div class="prizeContainer">
+						<el-button type="text" v-for="(item) in tempForm.special" :key="item._id">{{item}}</el-button>
+					</div>
+				</el-form-item>
+				<el-form-item label="安慰奖">
+					<div class="prizeContainer">
+						<el-button type="text" v-for="(item) in tempForm.comfort" :key="item._id">{{item}}</el-button>
+					</div>
+				</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="detailDialog = false">关闭</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -251,6 +283,16 @@ export default {
 				speciallyPrise:[],
 				comfortPrise:[]
 			},
+			// 详情
+			tempForm:{
+				date:new Date().toLocaleDateString().replace("/","-"),
+				firstPrise:{},
+				secondPrise:{},
+				thirdPrise:{},
+				speciallyPrise:[],
+				comfortPrise:[]
+			},
+			detailDialog:false,
 			customizes:{},
 			visible2:false,
 			selected : {
@@ -604,7 +646,12 @@ export default {
 				});
 				
 			}
-		}
+		},
+		// 详情
+		detail(obj){
+			this.tempForm = obj;
+			this.detailDialog = true;
+		},
 	}
 }
 </script>
