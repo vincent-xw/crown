@@ -1,4 +1,4 @@
-import { isNull } from 'util';
+
 
 module.exports = function(app,express){
     var pageRoute = express.Router({ mergeParams: true });
@@ -10,7 +10,7 @@ module.exports = function(app,express){
             let date = new Date().toLocaleDateString().replace(/\//g,"-");
             require("../method/getData")({date:date},(data)=>{
                 console.log(data);
-                if(isNull(data)){
+                if(!data){
                     data = {
                         firstPrize:{},
                         secondPrize:{},
