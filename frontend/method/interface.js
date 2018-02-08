@@ -214,7 +214,7 @@ module.exports = function(app){
             "status":500,
             "msg":"sess"
         };
-        system.findOne().then(data=>{
+        system.find().then(data=>{
             console.log(data);
             
             result.data = data;
@@ -236,9 +236,18 @@ module.exports = function(app){
         }
         if(data.type && data.status){
             system.findOneAndUpdate(data).then(data=>{
-                result.msg = "修改成功";
-                result.status = 200;
-                res.json(result);
+                if(data){
+                    result.msg = "修改成功";
+                    result.status = 200;
+                    res.json(result);
+                }else{
+                    system.save().then(res=>{
+                        result.msg = "新增成功";
+                        result.status = 200;
+                        res.json(result);
+                    });
+                }
+                
             });
         }else{
             result.msg = "缺少参数";
