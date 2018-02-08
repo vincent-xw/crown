@@ -12,10 +12,9 @@ module.exports = (obj,cb)=>{
                 data:lottery
             }
         }else{
-            result.status = 201;
-            // result.data = lottery;
-            result.msg = "find Unsuccessful";
-            // res.json(result);
+            result = {
+                data:[]
+            }
         }
         cb(result);
         
