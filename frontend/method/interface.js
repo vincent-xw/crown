@@ -242,7 +242,7 @@ module.exports = function(app){
                     result.status = 200;
                     res.json(result);
                 }else{
-                    oSystem.save().then(res=>{
+                    oSystem.save().then(res1=>{
                         result.msg = "新增成功";
                         result.status = 200;
                         res.json(result);
