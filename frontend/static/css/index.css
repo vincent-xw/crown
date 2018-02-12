@@ -13,8 +13,8 @@ p{
 .header{
     line-height: 60px;
 }
-.logo img{
-    width: 100px;
+.logo{
+    width: 70px;
 }
 .footer{
     position: fixed;
@@ -22,7 +22,12 @@ p{
     left: 0;
 }
 .navBar{
-    background: #ffffff;
+}
+.toggler{
+    color: #0056b3;
+    text-decoration: underline;
+    background-color: transparent;
+    border-color: transparent;
 }
 .list{
     list-style: none;

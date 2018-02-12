@@ -13,6 +13,8 @@
     {{/if}}
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/index.css">
+    <script src="/script/jquery/jquery.min.js"></script>
+    <script src="/script/bootstrap.min.js"></script>
 </head>
 <body>
     <header class="header">
@@ -24,27 +26,30 @@
     </header>
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-12 col-12">
                 <div class="navBar row ">
-                    <div class="col-3">
-                        <div class="logo">
-                            <img src="/source/img/logo.png" alt="">
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div class="navList">
-                            <ul class="list">
-                                <li class="active">
-                                    <a href="javascript:;">首页</a> 
-                                </li>
-                                <li>
-                                    关于我们
-                                </li>
-                                <li>
-                                    联系我们
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="col-md-12 col-12">
+                        <nav class="navbar navbar-expand-md navbar-light bg-light">
+                            <!-- Brand -->
+                            <a class="navbar-brand" href="#"><img class="logo" src="/source/img/logo.png" alt=""></a>
+                            <!-- Toggler/collapsibe Button -->
+                            <button class="navbar-toggler toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse  justify-content-end" id="collapsibleNavbar">
+                                <ul class="nav nav-pills navbar-nav">
+                                    <li class=" nav-item ">
+                                        <a class="nav-link" href="javascript:;">首页</a> 
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="javascript:;">关于我们</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="javascript:;">联系我们</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </div>

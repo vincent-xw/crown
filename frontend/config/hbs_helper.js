@@ -3,7 +3,7 @@ module.exports = (Handlebars)=>{
         var out = '';
         
         for(var i=0, l=items.length; i<l; i++) {
-            out += '<div class="col-1 clearPadding text-center" ><p>' + options.fn(items[i]) + '</p></div>';
+            out += '<div class="col-md-1 col-3 clearPadding text-center" ><p>' + options.fn(items[i]) + '</p></div>';
         }
         
         return out;
