@@ -42,6 +42,8 @@ var router = require("./config/router");
 
 router(app,express);
 
+// 引入直播
+require("./method/ws")();
 // 定时任务
 // let schedule = require("./method/schedule");
 // schedule();

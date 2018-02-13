@@ -1,5 +1,3 @@
-
-
 module.exports = function(app,express){
     var pageRoute = express.Router({ mergeParams: true });
     var language = require('../translate/translate');
@@ -9,7 +7,6 @@ module.exports = function(app,express){
         .get(function(req, res){
             let date = new Date().toLocaleDateString().replace(/\//g,"-");
             require("../method/getData")({date:date},(data)=>{
-                console.log(data);
                 if(!data){
                     data={
                         data : {
