@@ -112,21 +112,13 @@ module.exports =  (obj)=>{
             data.second = data.special[drawList[1]];
             data.third = data.special[drawList[2]];
 
-            data.special[drawList[0]] = {
-                number:'----',
-                date:new Date(),
-                msg:"号码被选中"
-            };
-            data.special[drawList[1]] = {
-                number:'----',
-                date:new Date(),
-                msg:"号码被选中"
-            };
-            data.special[drawList[2]] = {
-                number:'----',
-                date:new Date(),
-                msg:"号码被选中"
-            };
+            data.first.index = drawList[0];
+            data.second.index = drawList[1];
+            data.third.index = drawList[2];
+
+            data.special[drawList[0]].newNumber = "----";
+            data.special[drawList[1]].newNumber = "----";
+            data.special[drawList[2]].newNumber = "----";
             return {
                 status:0,
                 msg:"系统开奖数据",

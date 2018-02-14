@@ -69,3 +69,36 @@ p{
 .copy{
     width: 100%;
 }
+.opening {
+  -webkit-animation: twinkling 1s infinite ease-in-out;
+  -moz-animation: twinkling 1s infinite ease-in-out;
+  animation: twinkling 1s infinite ease-in-out;
+}
+
+@-webkit-keyframes twinkling {
+    0% {
+    opacity: 0.3;
+    }
+    100% {
+    opacity: 1;
+    }
+}
+
+@keyframes twinkling {
+    0% {
+    opacity: 0.3;
+    }
+    100% {
+    opacity: 1;
+    }
+}
+
+@-moz-keyframes twinkling {
+    0% {
+    opacity: 0.3;
+    }
+    100% {
+    opacity: 1;
+    }
+}
+

@@ -43,10 +43,15 @@ var router = require("./config/router");
 router(app,express);
 
 // 引入直播
-require("./method/ws")();
+// let live = require("./method/live")();
 // 定时任务
-// let schedule = require("./method/schedule");
-// schedule();
+let liveStatus = false;
+
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8888 });
+
+let schedule = require("./method/schedule")(wss,liveStatus);
+
 // mock数据
 // let mockData = require("./method/mockData");
 // mockData();

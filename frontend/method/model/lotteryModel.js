@@ -12,23 +12,28 @@ var lotterySchema = new Schema({
     firstPrise: {// 一等奖
         number: String,
         date: Date,
-        msg: String
+        msg: String,
+        index: Number
     },
     secondPrise: {// 二等奖
         number: String,
         date: Date,
-        msg: String
+        msg: String,
+        index: Number
     },
     thirdPrise: {// 三等奖
         number: String,
         date: Date,
-        msg: String
+        msg: String,
+        index: Number
     },
     speciallyPrise: [
         {
             number: String,
+            newNumber: String,
             date: Date,
-            msg: String
+            msg: String,
+            isSelected: Number
         }
     ],//特别奖
     comfortPrise: [
