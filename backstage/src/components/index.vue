@@ -424,6 +424,8 @@ export default {
 			if(self.settingForm.type != 3){
 				self.$message.error("当前系统设置非直播开奖模式，请先修改系统设置");
 				return false;
+			}else{
+				self.$router.push({name:"live"});
 			}
 		},
 		// 初始化period

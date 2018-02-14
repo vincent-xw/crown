@@ -67,10 +67,8 @@ module.exports = function(app){
         let Customize = require("./model/customizeModel");
         let date = new Date().toLocaleDateString().replace(/\//g,'-');
         customize = new Customize();
-        console.log(date);
         
         Customize.findOne({_id:date}).then(cust=>{
-            console.log(cust);
             
             let result = {
                 status:"200",
@@ -215,7 +213,6 @@ module.exports = function(app){
             "msg":"sess"
         };
         system.find().then(data=>{
-            console.log(data);
             
             result.data = data;
             result.status = 200;
