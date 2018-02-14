@@ -52,6 +52,9 @@ const wss = new WebSocket.Server({ port: 8888 });
 
 let schedule = require("./method/schedule")(wss,liveStatus);
 
+wss.on('connection', function connection(ws, req) {
+  require("./method/live")(wss, liveStatus);
+});
 // mock数据
 // let mockData = require("./method/mockData");
 // mockData();

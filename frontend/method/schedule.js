@@ -8,8 +8,11 @@ module.exports = (wss,liveStatus)=>{
         
     });
     var endj = schedule.scheduleJob('50 * * * * *', function () {
-        wss.close();
+        // if(wss){
+        //     wss.close();
+        // }
         liveStatus = false;
+        require("./live")(wss, liveStatus);
     
     });
 }

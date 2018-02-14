@@ -1,18 +1,9 @@
-module.exports = (obj, cb, wss, status)=>{
-  wss.on('connection', function connection(ws, req) {
-    // You might use location.query.access_token to authenticate or share sessions
-    // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
-    if(obj.status == 1){
-      cb(1)
-    }else{
-      if(status){
-        cb(ws);
-      }else{
-        cb()
-      }
+module.exports = (wss,data)=>{
+  const WebSocket = require('ws');
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(data);
+      
     }
-    ws.on('message', function incoming(message) {
-      console.log('received: %s', message);
-    });
   });
 };
