@@ -5,8 +5,9 @@ module.exports = (wss, liveStatus)=>{
     let systemInfo = require("./model/systemModel");
     systemInfo.findOne().then(sys => {
       if (sys.status == 1) {
-        if (sys.type == 1) {
+        if (sys.type == 1 || sys.type == 2) {
           let priseData = {
+            status: 0,
             comfortPrise: [],
             speciallyPrise: []
           };
@@ -34,7 +35,7 @@ module.exports = (wss, liveStatus)=>{
                     priseData.secondPrise = { number: data.data.secondPrise.number, type: 'secondPrise', index: data.data.secondPrise.index };
                     broadcast(wss,JSON.stringify(priseData));
                   } else {
-                    priseData.firstPrise = { number: data.data.thirdPrise.number, type: 'thirdPrise', index: data.data.thirdPrise.index };
+                    priseData.thirdPrise = { number: data.data.thirdPrise.number, type: 'thirdPrise', index: data.data.thirdPrise.index };
                     broadcast(wss,JSON.stringify(priseData));
                   }
                 }
@@ -46,21 +47,21 @@ module.exports = (wss, liveStatus)=>{
                   broadcast(wss,JSON.stringify(priseData));
 
                 }
-              }, 1000);
+              }, 10000);
             }
           });
         } else if (sys.type == 2) {
-          broadcast(wss,JSON.stringify({ msg: '自定义开奖', type: sys.type }));
+          broadcast(wss,JSON.stringify({status:1, msg: '自定义开奖', type: sys.type }));
         } else {
-          broadcast(wss,JSON.stringify({ msg: '直播开奖', type: sys.type }));
+          broadcast(wss, JSON.stringify({ status: 2, msg: '直播开奖', type: sys.type }));
         }
       } else {
-        broadcast(wss,JSON.stringify({ msg: "当前暂停开奖" }));
+        broadcast(wss, JSON.stringify({ status: 3, msg: "当前暂停开奖" }));
       }
 
     });
   }else{
-    broadcast(wss,JSON.stringify({msg:"非直播时间"}));
+    broadcast(wss, JSON.stringify({ status: 4,msg:"非直播时间"}));
   }
   
 }

@@ -61,6 +61,7 @@ p{
 }
 .main p{
     line-height: 60px;
+    min-height: 60px;
     border-bottom: 1px solid #FFFFFF;
 }
 .clearPadding{
