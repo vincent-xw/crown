@@ -1,7 +1,11 @@
 $(function() {
   // WEB_SOCKET_SWF_LOCATION = "WebSocketMain.swf";
+  var url = "ws://" + location.hostname + ":8888/";
+  // var url = "ws://localhost:8888/";
+  var ws = new WebSocket(url);
 
-  var ws = new WebSocket("ws://127.0.0.1:8888/");
+  console.log(url);
+  
 
   ws.onopen = function (e) {
     

@@ -48,7 +48,9 @@ router(app,express);
 let liveStatus = false;
 
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8888 });
+let ip = require("ip");
+
+const wss = new WebSocket.Server({ port: 8888, host: ip.address() });
 
 let schedule = require("./method/schedule")(wss,liveStatus);
 
