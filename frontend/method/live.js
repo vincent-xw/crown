@@ -47,7 +47,7 @@ module.exports = (wss, liveStatus)=>{
                   broadcast(wss,JSON.stringify(priseData));
 
                 }
-              }, 1000);
+              }, 10000);
             }
           });
         } else if (sys.type == 2) {
