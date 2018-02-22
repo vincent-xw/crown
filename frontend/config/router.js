@@ -33,7 +33,15 @@ module.exports = function(app,express){
                         }
                     }
                 }
-                res.render("index",{'index':true,data:language[(req.baseUrl).substr(1)],dataObj:data.data});
+                let isCn,isEn,isMy;
+                if (req.baseUrl.substr(1) == "zh_cn"){
+                    isCn = true;
+                } else if (req.baseUrl.substr(1) == "en_us"){
+                    isEn = true;
+                } else {
+                    isMy = true;
+                }
+                res.render("index", { 'index': true, isCn: isCn, isEn: isEn, isMy: isMy,data:language[(req.baseUrl).substr(1)],dataObj:data.data});
             });
             
             

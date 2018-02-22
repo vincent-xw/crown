@@ -1,5 +1,8 @@
 module.exports = {
     zh_cn:{
+        navIndex:"首页",
+        navAboutUs:"关于我们",
+        navContactUs:"联系我们",
         index:{
             title:"首页",
             gameTitle:"皇冠4D彩票",
@@ -20,9 +23,12 @@ module.exports = {
         }
     },
     en_us:{
+        navIndex:"首页",
+        navAboutUs:"关于我们",
+        navContactUs:"联系我们",
         index:{
             title:"homePage",
-            gameTitle:"皇冠4D彩票",
+            gameTitle:"Crown 4D lottery",
             period:"期开奖结果",
             nextTip:"下期开奖倒计时:",
             first:"首奖",
@@ -40,9 +46,12 @@ module.exports = {
         }
     },
     my:{
+        navIndex:"首页",
+        navAboutUs:"关于我们",
+        navContactUs:"联系我们",
         index:{
             title:"rumah",
-            gameTitle:"皇冠4D彩票",
+            gameTitle:"Loteri 4D mahkota",
             period:"期开奖结果",
             nextTip:"下期开奖倒计时:",
             first:"首奖",

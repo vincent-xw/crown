@@ -70,6 +70,9 @@ p{
 .copy{
     width: 100%;
 }
+.link{
+    color:#FFFFFF;
+}
 .opening {
   -webkit-animation: twinkling 1s infinite ease-in-out;
   -moz-animation: twinkling 1s infinite ease-in-out;
