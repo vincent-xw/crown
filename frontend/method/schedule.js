@@ -1,7 +1,7 @@
 module.exports = (wss,liveStatus)=>{
     var schedule = require('node-schedule');
     // 系统开奖job
-    let insertj = schedule.scheduleJob('37 * * * *', function () {
+    let insertj = schedule.scheduleJob('10 * * * *', function () {
         // 根据系统设定不同采用不同的开奖模式
         let systemInfo = require("./model/systemModel");
         systemInfo.findOne().then(sys=>{
@@ -54,7 +54,7 @@ module.exports = (wss,liveStatus)=>{
                                         date: new Date(),
                                         msg: "自定义开奖安慰奖"
                                     };
-                                    data1.comfort.push(temp);
+                                    data1.comfort.push(comfort);
                                 }
                             }
                             let data = {
@@ -144,7 +144,7 @@ module.exports = (wss,liveStatus)=>{
 
     });
     // 直播开奖job
-    let livej = schedule.scheduleJob('10 * * * *', function(){
+    let livej = schedule.scheduleJob('02 * * * *', function(){
         
         liveStatus = true;
         require("./live")(wss, liveStatus);

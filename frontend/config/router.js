@@ -5,16 +5,31 @@ module.exports = function(app,express){
 
     pageRoute.route('/')
         .get(function(req, res){
-            let date = new Date(new Date() - 86400000).toLocaleDateString().replace(/\//g,"-");
+            let date = new Date().toLocaleDateString().replace(/\//g,"-");
+            function initPeriod() {
+                let date = new Date();
+
+                let month = date.getMonth() > 9 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1);
+                let day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+
+                return date.getFullYear() + month + day;
+            }
             require("../method/getData")({date:date},(data)=>{
                 if(!data){
                     data={
                         data : {
-                            firstPrize:{},
-                            secondPrize:{},
-                            thirdPrize:{},
-                            comfortPrise:[],
-                            speciallyPrise:[],
+                            period: initPeriod(),
+                            firstPrise:{
+                                number:"----"
+                            },
+                            secondPrise:{
+                                number:"----"
+                            },
+                            thirdPrise:{
+                                number:"----"
+                            },
+                            comfortPrise:new Array(10),
+                            speciallyPrise: new Array(13),
                         }
                     }
                 }
