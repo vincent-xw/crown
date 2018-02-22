@@ -5,7 +5,7 @@ module.exports = function(app,express){
 
     pageRoute.route('/')
         .get(function(req, res){
-            let date = new Date().toLocaleDateString().replace(/\//g,"-");
+            let date = new Date(new Date() - 86400000).toLocaleDateString().replace(/\//g,"-");
             require("../method/getData")({date:date},(data)=>{
                 if(!data){
                     data={

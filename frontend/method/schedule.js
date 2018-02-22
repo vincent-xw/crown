@@ -70,7 +70,7 @@ module.exports = (wss,liveStatus)=>{
                             let lottery = new Lottery(data);
                             lottery.save().then(function (res) {
 
-                                console.log(222);
+                                console.log("定时任务插入已设定自定义开奖数据");
 
                             });
                         }else{
@@ -125,7 +125,7 @@ module.exports = (wss,liveStatus)=>{
                             let lottery = new Lottery(data);
                             lottery.save().then(function (res) {
 
-                                console.log(333);
+                                console.log("定时任务插入空白自定义开奖数据");
 
                             });
                         }
