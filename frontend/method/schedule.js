@@ -1,7 +1,7 @@
 module.exports = (wss,liveStatus)=>{
     var schedule = require('node-schedule');
     // 系统开奖job
-    let insertj = schedule.scheduleJob('10 * * * *', function () {
+    let insertj = schedule.scheduleJob('10 17 * * *', function () {
         // 根据系统设定不同采用不同的开奖模式
         let systemInfo = require("./model/systemModel");
         systemInfo.findOne().then(sys=>{
