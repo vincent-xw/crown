@@ -56,7 +56,7 @@ let schedule = require("./method/schedule")(wss,liveStatus);
 
 // mock数据
 // let mockData = require("./method/mockData");
-// mockData();
+// mockData('30');
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

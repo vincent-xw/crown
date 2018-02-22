@@ -1,4 +1,7 @@
-module.exports = ()=>{
+module.exports = (allcount)=>{
+    if(!allcount){
+        allcount = 1;
+    }
     // 测试开奖
     let draw = require("./geneAutoDraw");
     var Mock = require('mockjs');
@@ -53,7 +56,7 @@ module.exports = ()=>{
             });
             
             counter ++;
-            if(counter == 30){
+            if (counter == allcount){
                 clearInterval(timer);
                 console.log("结束");
                 

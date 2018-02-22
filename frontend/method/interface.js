@@ -112,7 +112,7 @@ module.exports = function(app){
             
             
             if(customize){
-                console.log('已存在');
+                console.log('当前自定义配置存在');
                 cust.update(data).then((obj)=>{
                     console.log(obj);
                     
@@ -129,14 +129,15 @@ module.exports = function(app){
                     res.json(result);
                 });
             }else{
-                console.log('不存在');
+                console.log('当前自定义配置不存在');
                 cust.save(data).then((obj)=>{
-                    if(obj.nInserted == 1){
+
+                    if(obj){
                         result.status = "200";
                         result.msg = "insert Successful";
                     }else{
                         result.status = "201";
-                        result.msg = "update Unsuccessful";
+                        result.msg = "insert Unsuccessful";
                     }
                     res.json(result);
                 });
