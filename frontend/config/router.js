@@ -33,6 +33,7 @@ module.exports = function(app,express){
                         }
                     }
                 }
+                // 判定网站语言类型
                 let isCn,isEn,isMy;
                 if (req.baseUrl.substr(1) == "zh_cn"){
                     isCn = true;
@@ -41,7 +42,18 @@ module.exports = function(app,express){
                 } else {
                     isMy = true;
                 }
-                res.render("index", { 'index': true, isCn: isCn, isEn: isEn, isMy: isMy,data:language[(req.baseUrl).substr(1)],dataObj:data.data});
+                // 下次开奖时间
+                let nextTime = null;
+                let systemInfo = require("../method/model/systemModel");
+                systemInfo.findOne().then(sys => {
+                    if (sys.status == 1) {
+                        nextTime = new Date().toLocaleDateString()+" 17:10:00"
+                    }else{
+                        nextTime = "Pause";
+                    }
+                    res.render("index", { 'index': true, nextTime: nextTime, isCn: isCn, isEn: isEn, isMy: isMy, data: language[(req.baseUrl).substr(1)], dataObj: data.data });
+                });
+                
             });
             
             

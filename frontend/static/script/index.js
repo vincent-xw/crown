@@ -15,14 +15,12 @@ $(function() {
   ws.onmessage = function (e) {
     // Receives a message.
     var data = JSON.parse(e.data);
-    console.log(data);
     
     // 设置开奖状态
     randerData(data);
 
   };
   ws.onclose = function () {
-    console.log("结束");
 
     $("#nextTip").html("下次开奖倒计时:").removeClass("opening");
     
@@ -35,7 +33,8 @@ $(function() {
       $("#firstPrise").html(" ");
       $("#secondPrise").html(" ");
       $("#thirdPrise").html(" ");
-      $("#nextTip").html("正在开奖:").addClass("opening");
+      $("#nextTip").html("正在开奖").addClass("opening");
+      // $("#time").html("");
       for (var index = 0; index < obj.speciallyPrise.length; index++) {
         const element = "<p>" + obj.speciallyPrise[index].number + "</p>";
         $(".priseArr").eq(index).html(element);
@@ -60,6 +59,10 @@ $(function() {
         $("#nextTip").html("本次开奖结束").removeClass("opening");
       }
     }
-    
+    // 定时刷新
+    var time = new Date($("#time").attr("data-time"))-new Date();
+    setTimeout(() => {
+      location.reload(true);
+    }, time);
   }
 });
