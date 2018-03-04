@@ -33,15 +33,6 @@ app.engine('html', hbs.__express);
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + '/static'));
 
-// 加载接口
-let interface_config = require("./method/interface");
-
-interface_config(app);
-// 页面路由
-var router = require("./config/router");
-
-router(app,express);
-
 // 引入直播
 // let live = require("./method/live")();
 // 定时任务
@@ -57,6 +48,16 @@ let schedule = require("./method/schedule")(wss,liveStatus);
 // mock数据
 // let mockData = require("./method/mockData");
 // mockData('30');
+
+// 加载接口
+let interface_config = require("./method/interface");
+
+interface_config(app,wss);
+// 页面路由
+var router = require("./config/router");
+
+router(app, express);
+
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

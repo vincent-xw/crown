@@ -50,10 +50,9 @@ module.exports = (wss, liveStatus)=>{
               }, 10000);
             }
           });
-        } else if (sys.type == 2) {
-          broadcast(wss,JSON.stringify({status:1, msg: '自定义开奖', type: sys.type }));
         } else {
           broadcast(wss, JSON.stringify({ status: 2, msg: '直播开奖', type: sys.type }));
+          
         }
       } else {
         broadcast(wss, JSON.stringify({ status: 3, msg: "当前暂停开奖" }));

@@ -1,4 +1,4 @@
-module.exports = function(app){
+module.exports = function(app,wss){
     require('./connect');
     // let auth = require('./auth');
     // 登录
@@ -250,8 +250,144 @@ module.exports = function(app){
             });
         }else{
             result.msg = "缺少参数";
+            res.json(result);
         }
         
     });
-    
+    // 直播录入数据
+    app.post('/api/info/liveInsert', function (req, res, next) {
+        var obj = req.body;
+        let result = {
+            "status": 500,
+            "msg": "sess"
+        };
+        if(true){
+            
+            let data = {
+                number:obj.number,
+                index:obj.index,
+                isSpecially:obj.isSpecially,
+                isComfort:obj.isComfort,
+                isFirst: obj.isFirst,
+                isSecond: obj.isSecond,
+                isThird: obj.isThird,
+                isEnd: obj.isEnd,
+                specialIndex: obj.specialIndex,
+                comfortIndex: obj.comfortIndex,
+            }
+            let liveSocket = require("./liveSocket");
+            liveSocket(wss,data,(resp)=>{
+                if(resp.status == 0){
+                    result.status = 200;
+                    result.data = resp.data;
+                    result.msg = resp.msg;
+                }else{
+                    result.status == 201;
+                    result.msg = resp.msg || "未知错误";
+                }
+                res.json(result);
+            })
+        }else{
+            result.status = 1;
+            result.msg = "当前并不是直播时间";
+            res.json(result);
+        }
+
+    });
+    // 检测直播录入状态
+    app.post('/api/info/liveStatus', function (req, res, next) {
+        var obj = req.body;
+        let result = {
+            "status": 500,
+            "msg": "sess"
+        };
+        if (true) {
+            let systemInfo = require("./model/systemModel");
+            let Live = require("./model/liveModel");
+            systemInfo.findOne().then(sys => {
+                if (sys.status == 1) {
+                    let live = new Live();
+                    let date = new Date(new Date().toDateString()).toISOString();
+                    Live.findOne({ "_id": date }).then(resp => {
+
+                        let result = {
+                            status: 0,
+                            data: null,
+                            msg: ""
+                        };
+                        if(resp){
+                            console.log("检测当前直播设置状态并返回");
+                            result.data = resp;
+                            if (resp.firstPrise.number !== "****" && resp.secondPrise.number !== "****" && resp.thirdPrise.number != "****" && resp.speciallyPrise.length == 13 && resp.comfortPrise.length == 10) {
+                                result.isEnd = true;
+                                result.isOk = true;
+                            } else {
+                                result.isEnd = false;
+                                result.isOk = false;
+                            }
+                            res.json(result);
+                        } else {
+                            console.log("不存在直播设置，将创建");
+                            let livedata = {
+                                _id: new Date().toLocaleDateString().replace(/\//g, '-'),
+                                type: 'live',
+                                firstPrise: {
+                                    number:"****",
+                                    index:-100,
+                                },
+                                secondPrise: {
+                                    number:"****",
+                                    index:-100,
+                                },
+                                thirdPrise: {
+                                    number:"****",
+                                    index:-100,
+                                },
+                                speciallyPrise: [
+                                   
+                                ],
+                                comfortPrise: [
+                                    
+                                ],
+                            }
+                            let result = {
+                                status: 0,
+                                data: null,
+                                msg: ""
+                            }
+                            let createLive = new Live(livedata);
+                            console.log(createLive);
+                            
+                            createLive.save().then(res1 => {
+                                Live.findOne({ "_id": new Date(new Date().toDateString()).toISOString() }).then(res2 => {
+                                    result.data = res2;
+                                    res.json(result);
+                                });
+                            }).catch(err => {
+                                if (err) {
+                                    console.log(err);
+                                    result.status = 1;//创建失败
+                                    result.msg = "创建失败";
+                                    res.json(result);
+                                }
+                            })
+                        }
+                    });
+                } else {
+                    let result = {
+                        status: 1,
+                        data: null,
+                        msg: "当前非直播时间"
+                    };
+                    res.json(result);
+                }
+                        
+            });
+        } else {
+            result.status = 1;
+            result.msg = "当前并不是直播时间";
+            res.json(result);
+        }
+
+    });
 }
