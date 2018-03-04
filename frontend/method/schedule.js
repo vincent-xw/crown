@@ -58,7 +58,7 @@ module.exports = (wss,liveStatus)=>{
                                 }
                             }
                             let data = {
-                                "_id": new Date(new Date().getTime() + 86400000).toLocaleDateString().replace(/\//g,'-'),
+                                "_id": new Date(new Date().getTime() ).toLocaleDateString().replace(/\//g,'-'),
                                 "type": 'cust',
                                 "firstPrise": data1.first,
                                 "secondPrise": data1.second,
@@ -113,7 +113,7 @@ module.exports = (wss,liveStatus)=>{
                                 }
                             }
                             let data = {
-                                "_id": new Date(new Date().getTime() + 86400000).toLocaleDateString().replace(/\//g,'-'),
+                                "_id": new Date(new Date().getTime() ).toLocaleDateString().replace(/\//g,'-'),
                                 "type": 'cust',
                                 "firstPrise": data1.first,
                                 "secondPrise": data1.second,

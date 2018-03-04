@@ -30,7 +30,7 @@
                         </el-form-item>
                         <el-form-item label="特别奖">
                             <div class="prizeContainer">
-                                <el-button type="text" v-for="(item,index) in form.speciallyPrise" :key="item._id" @click="showPopover(1,index,item.number)">{{(item.isSelected)?"----":item.number}}</el-button>
+                                <el-button type="text" v-for="(item,index) in form.speciallyPrise" :key="item._id" @click="showPopover(1,index,item.number)">{{(item.is1Selected || item.is2Selected || item.is3Selected)?"----":item.number}}</el-button>
                             </div>
                             <el-popover
                                 ref="popover5"
@@ -62,7 +62,7 @@
                         </el-popover>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-button type="primary" v-if="isEnd" @click="confirmEnd()">结束直播 </el-button>
+                        <el-button type="primary" v-if="isEnd" @click="confirmEnd()" :loading="endLoading">结束直播 </el-button>
                         <span v-if="isOK">当前直播设置已经结束</span>
                     </el-form-item>
                     </el-form>
@@ -126,6 +126,7 @@
                 loading:true,
                 // 结束开奖
                 isEnd:false,
+                endLoading:false,
                 // 结束label
                 isOK:false,
             }
@@ -324,12 +325,14 @@
                 let data = {
                     isEnd:true,
                 }
+                self.endLoading = true;
                 this.$confirm('此操作将结束当天直播, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                     }).then(() => {
                         self.$axios.post(self.$interfaces.liveUpdate,data).then(res=>{
+                            self.endLoading = false;
                             if(res.data.status == 200){
                                 self.$message.success(res.data.msg || "操作成功");
                                 self.isOK = res.data.data;

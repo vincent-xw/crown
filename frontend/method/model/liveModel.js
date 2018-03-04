@@ -29,14 +29,20 @@ var liveSchema = new Schema({
   speciallyPrise: [
     {
       number: String,
-      isSelected: Boolean
+      is1Selected: Boolean,
+      is2Selected: Boolean,
+      is3Selected: Boolean,
     }
   ],//特别奖
   comfortPrise: [
     {
       number: String,
     }
-  ]
+  ],
+  isEnd:{
+    type:Boolean,
+    default:false
+  }
 });
 function initPeriod() {
   let date = new Date();

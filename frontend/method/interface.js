@@ -318,7 +318,7 @@ module.exports = function(app,wss){
                         if(resp){
                             console.log("检测当前直播设置状态并返回");
                             result.data = resp;
-                            if (resp.firstPrise.number !== "****" && resp.secondPrise.number !== "****" && resp.thirdPrise.number != "****" && resp.speciallyPrise.length == 13 && resp.comfortPrise.length == 10) {
+                            if (resp.isEnd) {
                                 result.isEnd = true;
                                 result.isOk = true;
                             } else {
