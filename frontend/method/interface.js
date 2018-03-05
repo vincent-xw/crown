@@ -21,12 +21,14 @@ module.exports = function(app,wss){
                     result.status = 200;
                     result.msg = "";
                     sess.userName = user.username;
-                    sess.regenerate(function(err) {
-                        if(err){
-                            return res.json({status: 2, msg: '登录失败'});                
-                        }
-                        res.json({status: 0, msg: '登录成功'});                           
-                    });
+                    sess.save();
+                    // sess.regenerate(function(err) {
+                    //     if(err){
+                    //         return res.json({status: 2, msg: '登录失败'});                
+                    //     }
+                                                   
+                    // });
+                    res.json({ status: 0, msg: '登录成功' });
                 }
             }else{
                 result.status = 501;
@@ -42,9 +44,8 @@ module.exports = function(app,wss){
                 res.json({status: 2, msg: '注销失败'});
                 return;
             }
-            
             res.clearCookie(identityKey);
-            res.json({status: 0,msg:"注销成功"});
+            res.json({status: 200,msg:"注销成功"});
         });
     });
     // 验证
@@ -146,6 +147,8 @@ module.exports = function(app,wss){
     });
     // 获取数据
     app.post('/api/info/get', function(req, res, next){
+        
+        
         var obj = req.body;
         var result = {
             "status":500,

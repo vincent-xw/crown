@@ -3,7 +3,7 @@
   <el-container>
 		<el-header class="el-header">
       <h3 style="color:#FFFFFF">皇冠4D彩票后台管理系统</h3>
-      <el-button class="logout">注销</el-button>
+      <el-button class="logout" @click="logout">注销</el-button>
     </el-header>
 		<el-main>
       <router-view/>
@@ -15,7 +15,16 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  methods:{
+    // 注销登录
+    logout(){
+      let self = this;
+      self.$axios.post(self.$interfaces.login.logout).then(res=>{
+        self.$router.push({name:"login"});
+      });
+    },
+  }
 }
 </script>
 

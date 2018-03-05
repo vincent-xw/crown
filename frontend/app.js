@@ -9,10 +9,8 @@ var FileStore = require('session-file-store')(session);
 
 app.use(session({
   secret: 'chyingp',  // 用来对session id相关的cookie进行签名
-  saveUninitialized: false,  // 是否自动保存未初始化的会话，建议false
-  resave: false,  // 是否每次都重新保存会话，建议false
   cookie: {
-      maxAge: 7200 * 1000  // 有效期，单位是毫秒
+      maxAge: 10 * 1000  // 有效期，单位是毫秒
   }
 }));
 
@@ -48,7 +46,20 @@ let schedule = require("./method/schedule")(wss,liveStatus);
 // mock数据
 // let mockData = require("./method/mockData");
 // mockData('30');
-
+app.route('*')
+  .all(function (req, res, next) {
+    if (req.path == "/api/login"){
+      next();
+    }else{
+      if (req.session.userName) {
+        next();
+      } else {
+        res.json({ status: 401, msg: "未登录" });
+      }
+    }
+    
+    
+  })
 // 加载接口
 let interface_config = require("./method/interface");
 
