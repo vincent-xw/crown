@@ -9,7 +9,7 @@
                 </el-col>
                 <el-col :span="12" class="text-right">
                     <span>当前期数:</span>
-                    <span>12344</span>
+                    <span>{{form.period}}</span>
                 </el-col>
             </div>
         </el-row>

@@ -50,7 +50,7 @@ let schedule = require("./method/schedule")(wss,liveStatus);
 // mockData('30');
 app.route('*')
   .all(function (req, res, next) {
-    if (req.path == "/api/login"){
+    if (req.path == "/api/login" || req.path.indexOf('api') == -1){
       next();
     }else{
       if (req.session.userName) {
