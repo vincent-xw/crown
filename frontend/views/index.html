@@ -15,16 +15,16 @@
                     <div class="col-md-3 col-4">
                         <p><span class="period" id="period">{{dataObj.period}}</span> </p>
                     </div>
-                    <div class="col-md-5 col-3">
+                    <div class="col-md-5 col-1">
                         
                     </div>
-                    <div class="col-md-4 col-5">
+                    <div class="col-md-4 col-11">
                         <div class="row">
                             {{#if isLive}}
-                            <div class="col-md-5 opening" id="nextTip">{{data.index.living}}</div>
+                            <div class="col-md-6 opening" id="nextTip">{{data.index.living}}</div>
                              {{else}}
-                            <div class="col-md-5" id="nextTip">{{data.index.nextTip}}</div>
-                            <div class="col-md-7" id="time" data-time="{{nextTime}}">{{nextTime}}</div>
+                            <div class="col-md-6" id="nextTip">{{data.index.nextTip}}</div>
+                            <div class="col-md-6" id="time" data-time="{{nextTime}}">{{nextTime}}</div>
                              {{/if}}
                         </div>
                     </div>

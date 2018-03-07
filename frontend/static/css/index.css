@@ -18,7 +18,7 @@ p{
     margin-right: 20px;
 }
 .period{
-    margin-left: 120px;
+    margin-left: 150px;
 }
 .footer{
     position: fixed;
@@ -56,6 +56,13 @@ p{
 .infoPanel .mainTitle{
     font-size: 46px;
     font-weight: normal;
+}
+@media only screen  and (max-width: 736px){
+    .infoPanel .mainTitle {
+      font-size: 26px;
+      font-weight: normal;
+    }
+
 }
 .main {
     margin-top: 50px;
