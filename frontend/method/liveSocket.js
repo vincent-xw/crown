@@ -27,7 +27,7 @@ module.exports = (wss,data,cb) =>{
                   speciallyPrise[i].is1Selected = false;
                 }
                 speciallyPrise[data.index].is1Selected = true;
-                Live.update({ "period": res.period }, {
+                Live.update({ "_id": new Date(new Date().toDateString()).toISOString() }, {
                   firstPrise: {
                     number: data.number,
                     index: data.index
@@ -62,7 +62,7 @@ module.exports = (wss,data,cb) =>{
                   speciallyPrise[i].is2Selected = false;
                 }
                 speciallyPrise[data.index].is2Selected = true;
-                Live.update({ "period": res.period }, {
+                Live.update({ "_id": new Date(new Date().toDateString()).toISOString() }, {
                   secondPrise: {
                     number: data.number,
                     index: data.index
@@ -97,7 +97,7 @@ module.exports = (wss,data,cb) =>{
                   speciallyPrise[i].is3Selected = false;
                 }
                 speciallyPrise[data.index].is3Selected = true;
-                Live.update({ "period": res.period }, {
+                Live.update({ "_id": new Date(new Date().toDateString()).toISOString() }, {
                   thirdPrise: {
                     number: data.number,
                     index: data.index
@@ -135,7 +135,7 @@ module.exports = (wss,data,cb) =>{
                   }
                 }
 
-                Live.update({ "period": res.period }, {
+                Live.update({ "_id": new Date(new Date().toDateString()).toISOString() }, {
                   speciallyPrise:res.speciallyPrise
                 }).then(res1 => {
                   console.log(res1);
@@ -169,7 +169,7 @@ module.exports = (wss,data,cb) =>{
                   }
                 }
 
-                Live.update({ "period": res.period }, {
+                Live.update({ "_id": new Date(new Date().toDateString()).toISOString() }, {
                   comfortPrise:res.comfortPrise
                 }).then(res1 => {
                   console.log(res1);
@@ -242,7 +242,7 @@ module.exports = (wss,data,cb) =>{
                   let Lottery = require("./model/lotteryModel");
                   let lottery = new Lottery(liveData);
                   lottery.save().then(function (res3) {
-                    Live.update({ "period": res.period }, { isEnd: true }).then(res4 => {
+                    Live.update({ "_id": new Date(new Date().toDateString()).toISOString() }, { isEnd: true }).then(res4 => {
                       if (res4.ok == 1 && res4.nModified == 1) {
                         result.data = true;
                         result.msg = "设置成功结束直播";
