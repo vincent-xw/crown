@@ -135,7 +135,9 @@ module.exports = (wss,data,cb) =>{
                   }
                 }
 
-                Live.update({ "period": res.period }, res).then(res1 => {
+                Live.update({ "period": res.period }, {
+                  speciallyPrise:res.speciallyPrise
+                }).then(res1 => {
                   console.log(res1);
                   if (res1.ok == 1 && res1.nModified == 1) {
                     Live.findOne({ "_id": new Date(new Date().toDateString()).toISOString() }).then(res2 => {
@@ -167,7 +169,9 @@ module.exports = (wss,data,cb) =>{
                   }
                 }
 
-                Live.update({ "period": res.period }, res).then(res1 => {
+                Live.update({ "period": res.period }, {
+                  comfortPrise:res.comfortPrise
+                }).then(res1 => {
                   console.log(res1);
                   if (res1.ok == 1 && res1.nModified == 1) {
                     Live.findOne({ "_id": new Date(new Date().toDateString()).toISOString() }).then(res2 => {
