@@ -12,9 +12,17 @@ module.exports = function(app,express){
                 let day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
 
                 return date.getFullYear() + month + day;
+            };
+
+            let timeStr = new Date().toLocaleDateString() + " 18:15";
+            let time = new Date() - new Date(timeStr);
+
+            let data = null;
+            let isLive = false, isNormal = true;
+            if (time < 0) {
+                date = new Date(new Date() - 86400000).toLocaleDateString().replace(/\//g, "-");
             }
             require("../method/getData")({date:date},(data)=>{
-                let isLive = false,isNormal = true;
                 if(!data){
                     isNormal = false;
                     data={
@@ -35,10 +43,7 @@ module.exports = function(app,express){
                     }
                 }
 
-                let timeStr = new Date().toLocaleDateString() + " 22:26";
-                let lotteryMinute = new Date(timeStr).getMinutes();
-                let lotteryHour = new Date(timeStr).getHours();
-                if (new Date() - new Date(timeStr) > 0 && new Date() - new Date(timeStr) <= 30*60*1000){
+                if (time > 0 && time <= 30 * 60 * 1000) {
                     isLive = true;
                     data = {
                         data: {
@@ -72,7 +77,7 @@ module.exports = function(app,express){
                 let systemInfo = require("../method/model/systemModel");
                 systemInfo.findOne().then(sys => {
                     if (sys.status == 1) {
-                        nextTime = new Date().toLocaleDateString()+" 17:10:00"
+                        nextTime = new Date().toLocaleDateString()+" 18:15:00"
                     }else{
                         nextTime = "Pause";
                     }

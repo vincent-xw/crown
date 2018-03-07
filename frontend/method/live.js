@@ -49,11 +49,9 @@ module.exports = (wss, liveStatus)=>{
                   broadcast(wss,JSON.stringify(priseData));
 
                 }
-              }, 10000);
+              }, 60000);
             }
           });
-        } else {
-          broadcast(wss, JSON.stringify({ status: 2, msg: '直播开奖', type: sys.type }));         
         }
       } else {
         broadcast(wss, JSON.stringify({ status: 3, msg: "当前暂停开奖" }));
