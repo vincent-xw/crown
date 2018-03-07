@@ -122,7 +122,11 @@ module.exports = (wss,data,cb) =>{
                 });
               }
             } else if (data.isSpecially) {//特殊将设置
-              if (res.speciallyPrise.length == 13) {
+              let modifiable = true;
+              if(data.type == "modify"){
+                modifiable = false;
+              }
+              if (res.speciallyPrise.length == 13 && modifiable) {
                 result.status = 3;
                 result.msg = "失败。原因：特殊奖奖池已满，插入失败";
                 cb(result);
@@ -156,7 +160,11 @@ module.exports = (wss,data,cb) =>{
                 });
               }
             } else if (data.isComfort) {//安慰奖设置
-              if (res.comfortPrise.length == 10) {
+              let modifiable = true;
+              if (data.type == "modify") {
+                modifiable = false;
+              }
+              if (res.comfortPrise.length == 10 && modifiable) {
                 result.status = 3;
                 result.msg = "失败。原因：安慰奖奖池已满，插入失败";
                 cb(result);
@@ -220,6 +228,15 @@ module.exports = (wss,data,cb) =>{
                       date: new Date(),
                       msg: "直播开奖特殊奖"
                     };
+                    if (index == res2.firstPrise.index) {
+                      temp.newNumber = "----";
+                    }
+                    if (index == res2.secondPrise.index) {
+                      temp.newNumber = "----";
+                    }
+                    if (index == res2.thirdPrise.index) {
+                      temp.newNumber = "----";
+                    }
                     data1.special.push(temp);
                     if (index < 10) {
                       let comfort = {

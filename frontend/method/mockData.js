@@ -34,6 +34,7 @@ module.exports = (allcount)=>{
             };
             let data1 = draw(data);
             let obj1 = {
+                "_id": new Date().toLocaleDateString().replace(/\//g, '-'),
                 "type":'auto',
                 "firstPrise":data1.data.first,
                 "secondPrise":data1.data.second,
@@ -41,13 +42,17 @@ module.exports = (allcount)=>{
                 "speciallyPrise":data1.data.special,
                 "comfortPrise":data1.data.comfort
             };
-            if(lott.length != 0){
-                obj1._id = new Date(new Date(lott[0]._id).getTime()+86400000).toLocaleDateString().replace(/\//g,'-');
-                obj1.period = initPeriod(obj1._id);
-            }else{
-                obj1._id = new Date().toLocaleDateString().replace(/\//g,'-');
-                obj1.period = initPeriod(obj1._id);
-            }
+            obj1.period = initPeriod(obj1._id);
+            // mock模式
+            // if(lott.length != 0){
+            //     obj1._id = new Date(new Date(lott[0]._id).getTime()+86400000).toLocaleDateString().replace(/\//g,'-');
+            //     obj1.period = initPeriod(obj1._id);
+            // }else{
+            //     obj1._id = new Date().toLocaleDateString().replace(/\//g,'-');
+            //     obj1.period = initPeriod(obj1._id);
+            // }
+            // 系统开奖模式
+
             let lottery1 = new Lottery(obj1);
             lottery1.save().then(function(res){
                 

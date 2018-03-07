@@ -11,11 +11,13 @@ module.exports = (wss, liveStatus)=>{
             comfortPrise: [],
             speciallyPrise: []
           };
-          priseData.isBegin = { status: true, type: '系统开奖' };
-          broadcast(wss,JSON.stringify(priseData));
+          // priseData.isBegin = { status: true, type: '系统开奖' };
+          // broadcast(wss,JSON.stringify(priseData));
           let speIndex = 0, comfortIndex = 0, count = 0;
-          let date = new Date(new Date().getTime() + 86400000).toLocaleDateString().replace(/\//g, "-");
+          let date = new Date(new Date().getTime()).toLocaleDateString().replace(/\//g, "-");
           require("../method/getData")({ date: date }, (data) => {
+            console.log(data);
+            
             if (data) {
               let timer = null;
               timer = setInterval(() => {
@@ -47,7 +49,7 @@ module.exports = (wss, liveStatus)=>{
                   broadcast(wss,JSON.stringify(priseData));
 
                 }
-              }, 60000);
+              }, 10000);
             }
           });
         } else {

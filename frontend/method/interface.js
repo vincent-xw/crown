@@ -268,6 +268,7 @@ module.exports = function(app,wss){
             
             let data = {
                 number:obj.number,
+                type: obj.type,
                 index:obj.index,
                 isSpecially:obj.isSpecially,
                 isComfort:obj.isComfort,

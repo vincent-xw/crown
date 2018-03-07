@@ -14,8 +14,9 @@ module.exports = function(app,express){
                 return date.getFullYear() + month + day;
             }
             require("../method/getData")({date:date},(data)=>{
-                let isLive = false;
+                let isLive = false,isNormal = true;
                 if(!data){
+                    isNormal = false;
                     data={
                         data : {
                             period: initPeriod(),
@@ -75,7 +76,7 @@ module.exports = function(app,express){
                     }else{
                         nextTime = "Pause";
                     }
-                    res.render("index", { 'index': true, 'isLive': isLive, 'nextTime': nextTime, isCn: isCn, isEn: isEn, isMy: isMy, data: language[(req.baseUrl).substr(1)], dataObj: data.data });
+                    res.render("index", { 'index': true, 'isLive': isLive, 'isNormal': isNormal, 'nextTime': nextTime, isCn: isCn, isEn: isEn, isMy: isMy, data: language[(req.baseUrl).substr(1)], dataObj: data.data });
                 });
                 
             });

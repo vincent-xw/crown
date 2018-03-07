@@ -62,7 +62,11 @@
         </div>
         <div class="row">
             {{#list dataObj.speciallyPrise}}
-                {{number}}
+                {{#if newNumber}}
+                    {{newNumber}}
+                {{else}}
+                    {{number}}
+                {{/if}}
             {{/list}}
         </div>
         <div class="row">

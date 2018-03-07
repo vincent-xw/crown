@@ -1,9 +1,9 @@
 module.exports = (wss,liveStatus)=>{
     var schedule = require('node-schedule');
     // 系统开奖job
-    let insertj = schedule.scheduleJob('00 20 22 * * *', function () {
+    let insertj = schedule.scheduleJob('00 59 00 * * *', function () {
         // 根据系统设定不同采用不同的开奖模式
-        // console.log("自动任务执行插入数据");
+        console.log("自动任务执行插入数据");
         
         let systemInfo = require("./model/systemModel");
         systemInfo.findOne().then(sys=>{
@@ -49,6 +49,15 @@ module.exports = (wss,liveStatus)=>{
                                     date:new Date(),
                                     msg:"自定义开奖特殊奖"
                                 };
+                                if (index == cust.firstPrise.index){
+                                    temp.newNumber = "----";
+                                }
+                                if (index == cust.secondPrise.index) {
+                                    temp.newNumber = "----";
+                                }
+                                if (index == cust.thirdPrise.index) {
+                                    temp.newNumber = "----";
+                                }
                                 data1.special.push(temp);
                                 if(index < 10){
                                     let comfort = {
@@ -146,8 +155,8 @@ module.exports = (wss,liveStatus)=>{
 
     });
     // 直播开奖job
-    let livej = schedule.scheduleJob('00 22 22 * * *', function(){
-        // console.log("进入直播开奖模式");
+    let livej = schedule.scheduleJob('00 35 00 * * *', function(){
+        console.log("进入直播开奖模式");
         
         liveStatus = true;
         require("./live")(wss, liveStatus);

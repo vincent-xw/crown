@@ -223,7 +223,7 @@
                     let data = {
                         date:new Date().toLocaleDateString().replace(/\//g,'-'),
                         number:value,
-                        type:"update",
+                        type:"modify",
                         specialIndex : index ,
                         comfortIndex : index
                     }
