@@ -4,7 +4,7 @@
             <div class="title">
                 <div class="row">
                     <div class="col-md-12 col-12">
-                        <p class="mainTitle">{{data.index.gameTitle}}</p>
+                        <p class="mainTitle"><img class="logo" src="/source/img/logo.png" alt="">{{data.index.gameTitle}}</p>
                     </div>
                 </div>
             </div>
@@ -13,15 +13,19 @@
             <div class="box">
                 <div class="row">
                     <div class="col-md-3 col-4">
-                        <p><span id="period"></span> {{dataObj.period}}</p>
+                        <p><span class="period" id="period">{{dataObj.period}}</span> </p>
                     </div>
                     <div class="col-md-5 col-3">
                         
                     </div>
                     <div class="col-md-4 col-5">
                         <div class="row">
+                            {{#if isLive}}
+                            <div class="col-md-5 opening" id="nextTip">{{data.index.living}}</div>
+                             {{else}}
                             <div class="col-md-5" id="nextTip">{{data.index.nextTip}}</div>
                             <div class="col-md-7" id="time" data-time="{{nextTime}}">{{nextTime}}</div>
+                             {{/if}}
                         </div>
                     </div>
                 </div>
@@ -60,42 +64,6 @@
             {{#list dataObj.speciallyPrise}}
                 {{number}}
             {{/list}}
-            <!-- <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div> -->
         </div>
         <div class="row">
             <div class="col-md-12 clearPadding text-center" >
@@ -106,33 +74,6 @@
                 {{#list dataObj.comfortPrise}}
                     {{number}}
                 {{/list}}
-            <!-- <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div>
-            <div class="col-md-1 clearPadding text-center" >
-                <p>1111</p>
-            </div> -->
             </div>
         </div>
     </div>

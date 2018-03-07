@@ -1,5 +1,5 @@
 module.exports = (wss, liveStatus)=>{
-  // 直播模块，分为系统/自顶开奖与直播开奖两个功能
+  // 直播模块，分为系统/自定开奖与直播开奖两个功能
   let broadcast = require("./ws");
   if(liveStatus){
     let systemInfo = require("./model/systemModel");
@@ -51,8 +51,7 @@ module.exports = (wss, liveStatus)=>{
             }
           });
         } else {
-          broadcast(wss, JSON.stringify({ status: 2, msg: '直播开奖', type: sys.type }));
-          
+          broadcast(wss, JSON.stringify({ status: 2, msg: '直播开奖', type: sys.type }));         
         }
       } else {
         broadcast(wss, JSON.stringify({ status: 3, msg: "当前暂停开奖" }));

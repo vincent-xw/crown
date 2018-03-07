@@ -2,7 +2,6 @@ module.exports = function(app,express){
     var pageRoute = express.Router({ mergeParams: true });
     var language = require('../translate/translate');
     // 路由匹配
-
     pageRoute.route('/')
         .get(function(req, res){
             let date = new Date().toLocaleDateString().replace(/\//g,"-");
@@ -15,6 +14,7 @@ module.exports = function(app,express){
                 return date.getFullYear() + month + day;
             }
             require("../method/getData")({date:date},(data)=>{
+                let isLive = false;
                 if(!data){
                     data={
                         data : {
@@ -33,6 +33,30 @@ module.exports = function(app,express){
                         }
                     }
                 }
+
+                let timeStr = new Date().toLocaleDateString() + " 22:26";
+                let lotteryMinute = new Date(timeStr).getMinutes();
+                let lotteryHour = new Date(timeStr).getHours();
+                if (new Date() - new Date(timeStr) > 0 && new Date() - new Date(timeStr) <= 30*60*1000){
+                    isLive = true;
+                    data = {
+                        data: {
+                            period: initPeriod(),
+                            firstPrise: {
+                                number: "----"
+                            },
+                            secondPrise: {
+                                number: "----"
+                            },
+                            thirdPrise: {
+                                number: "----"
+                            },
+                            comfortPrise: new Array(10),
+                            speciallyPrise: new Array(13),
+                        }
+                    }
+                }
+                
                 // 判定网站语言类型
                 let isCn,isEn,isMy;
                 if (req.baseUrl.substr(1) == "zh_cn"){
@@ -51,7 +75,7 @@ module.exports = function(app,express){
                     }else{
                         nextTime = "Pause";
                     }
-                    res.render("index", { 'index': true, nextTime: nextTime, isCn: isCn, isEn: isEn, isMy: isMy, data: language[(req.baseUrl).substr(1)], dataObj: data.data });
+                    res.render("index", { 'index': true, 'isLive': isLive, 'nextTime': nextTime, isCn: isCn, isEn: isEn, isMy: isMy, data: language[(req.baseUrl).substr(1)], dataObj: data.data });
                 });
                 
             });

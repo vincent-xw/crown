@@ -60,10 +60,10 @@ $(function() {
       }
     }
     // 定时刷新
-    var time = new Date($("#time").attr("data-time"))-new Date();
-    time = time >= 0 ? time : 86400000+time;
-    setTimeout(() => {
-      location.reload(true);
-    }, time);
+    // var time = new Date($("#time").attr("data-time"))-new Date();
+    // time = time >= 0 ? time : 86400000+time;
+    // setTimeout(() => {
+    //   location.reload(true);
+    // }, time);
   }
 });
