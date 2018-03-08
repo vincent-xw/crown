@@ -249,7 +249,7 @@ module.exports = (wss,data,cb) =>{
                   }
                   let liveData = {
                     "_id": new Date(new Date().getTime()).toLocaleDateString().replace(/\//g, '-'),
-                    "type": 'cust',
+                    "type": 'live',
                     "firstPrise": data1.first,
                     "secondPrise": data1.second,
                     "thirdPrise": data1.third,

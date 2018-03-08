@@ -23,6 +23,7 @@ module.exports = function(app,express){
                 date = new Date(new Date() - 86400000).toLocaleDateString().replace(/\//g, "-");
             }
             require("../method/getData")({date:date},(data)=>{
+                console.log(data);
                 if(!data){
                     isNormal = false;
                     data={
