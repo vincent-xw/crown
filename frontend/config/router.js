@@ -22,6 +22,8 @@ module.exports = function(app,express){
             if (time < 0) {
                 date = new Date(new Date() - 86400000).toLocaleDateString().replace(/\//g, "-");
             }
+            console.log(date);
+            
             require("../method/getData")({date:date},(data)=>{
                 console.log(data);
                 if(!data){
