@@ -66,4 +66,30 @@ $(function() {
     //   location.reload(true);
     // }, time);
   }
+  
+  function getQueryString(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+      return unescape(r[2]);
+    }
+    return null;
+  }
+  var date = new Date(getQueryString("date")) == "Invalid Date" ? new Date() : getQueryString("date");
+  $('#date').fdatepicker({
+    initialDate: date,
+    format: 'yyyy-mm-dd',
+    disableDblClickSelection: true,
+    leftArrow: '<<',
+    rightArrow: '>>',
+    closeIcon: 'X',
+    closeButton: true
+  }).on('changeDate', function (ev) {
+    location.href = location.href.split("?")[0]+"?date="+$("#date").val();
+  });
+  $(document).keyup(function (event) {
+    if (event.keyCode == 13) {
+      location.href = location.href.split("?")[0] + "?date=" + $("#date").val();
+    }
+  });
 });

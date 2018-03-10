@@ -82,6 +82,9 @@ p{
 .link{
     color:#FFFFFF;
 }
+.hidden{
+    display: none;
+}
 .opening {
   -webkit-animation: twinkling 1s infinite ease-in-out;
   -moz-animation: twinkling 1s infinite ease-in-out;

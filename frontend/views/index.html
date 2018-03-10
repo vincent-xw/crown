@@ -12,13 +12,13 @@
         <div class="container">
             <div class="box">
                 <div class="row">
-                    <div class="col-md-3 col-4">
+                    <div class="col-md-3 col-12">
                         <p><span class="period" id="period">{{dataObj.period}}</span> </p>
                     </div>
-                    <div class="col-md-5 col-1">
-                        
+                    <div class="col-md-5 col-6">
+                        <input type="text" class="form-control col-md-6 col-12" id="date" placeholder="please select date">
                     </div>
-                    <div class="col-md-4 col-11">
+                    <div class="col-md-4 col-6">
                         <div class="row">
                             {{#if isLive}}
                             <div class="col-md-6 opening" id="nextTip">{{data.index.living}}</div>
@@ -32,6 +32,7 @@
             </div>
         </div>
     </div>
+
     <div class="container main">
         <div class="row">
             <div class="col-md-6 col-6 clearPadding">

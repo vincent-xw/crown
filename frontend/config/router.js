@@ -4,26 +4,28 @@ module.exports = function(app,express){
     // 路由匹配
     pageRoute.route('/')
         .get(function(req, res){
-            let date = new Date().toLocaleDateString().replace(/\//g,"-");
-            function initPeriod() {
-                let date = new Date();
+            let date = null;
 
-                let month = date.getMonth() > 9 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1);
-                let day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
-
-                return date.getFullYear() + month + day;
-            };
-
-            let timeStr = new Date().toLocaleDateString() + " 18:15";
+            let timeStr = new Date().toLocaleDateString() + " 19:15";
             let time = new Date() - new Date(timeStr);
 
             let data = null;
             let isLive = false, isNormal = true;
-            if (time < 0) {
-                date = new Date(new Date() - 86400000).toLocaleDateString().replace(/\//g, "-");
+            function initPeriod() {
+                let date = new Date();
+                let month = date.getMonth() >= 9 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1);
+                let day = date.getDate() >= 9 ? date.getDate() : "0" + date.getDate();
+
+                return date.getFullYear() + month + day;
+            };
+            if (req.query.date && new Date(req.query.date) != "Invalid Date"){
+                date = new Date(req.query.date).toLocaleDateString().replace(/\//g, "-");
+            }else{
+                date = new Date().toLocaleDateString().replace(/\//g, "-");
+                if (time < 0) {
+                    date = new Date(new Date() - 86400000).toLocaleDateString().replace(/\//g, "-");
+                }
             }
-            console.log(date);
-            
             require("../method/getData")({date:date},(data)=>{
                 console.log(data);
                 if(!data){
@@ -80,7 +82,12 @@ module.exports = function(app,express){
                 let systemInfo = require("../method/model/systemModel");
                 systemInfo.findOne().then(sys => {
                     if (sys.status == 1) {
-                        nextTime = new Date().toLocaleDateString()+" 18:15:00"
+                        if(time < 0){
+                            nextTime = new Date().toLocaleDateString() + " 19:15:00";
+                        }else{
+                            nextTime = new Date(new Date().getTime() + 86400000).toLocaleDateString() + " 19:15:00"
+                        }
+                        
                     }else{
                         nextTime = "Pause";
                     }
@@ -106,7 +113,7 @@ module.exports = function(app,express){
         .get(function(req, res){
             var lan = req.params;
             res.render("contact",{'contact':true,data:language[(req.baseUrl).substr(1)]});
-        });
+        });  
     app.use('/zh_cn/', pageRoute);
     app.use('/en_us/', pageRoute);
     app.use('/my/', pageRoute);

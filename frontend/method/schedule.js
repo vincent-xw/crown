@@ -1,7 +1,7 @@
 module.exports = (wss,liveStatus)=>{
     var schedule = require('node-schedule');
     // 系统开奖job
-    let insertj = schedule.scheduleJob('00 05 18 * * *', function () {
+    let insertj = schedule.scheduleJob('00 05 19 * * *', function () {
         // 根据系统设定不同采用不同的开奖模式
         console.log("自动任务执行插入数据");
         
@@ -144,8 +144,6 @@ module.exports = (wss,liveStatus)=>{
                     }, err => {
                         console.log(err);
                     });
-                    
-                    
                 }else{
                     // 直播开奖
                     
@@ -155,14 +153,14 @@ module.exports = (wss,liveStatus)=>{
 
     });
     // 直播开奖job
-    let livej = schedule.scheduleJob('00 15 18 * * *', function(){
+    let livej = schedule.scheduleJob('00 15 19 * * *', function(){
         console.log("进入直播开奖模式");
         
         liveStatus = true;
         require("./live")(wss, liveStatus);
         
     });
-    var endj = schedule.scheduleJob('00 45 18 * * *', function () {
+    var endj = schedule.scheduleJob('00 45 19 * * *', function () {
         console.log("直播开奖模式结束");
         
         liveStatus = false;

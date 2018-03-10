@@ -208,6 +208,33 @@ module.exports = function(app,wss){
             
         });
     });
+    // 前台获取数据
+    app.post('/data/get', function (req, res, next) {
+
+
+        var obj = req.body;
+        var result = {
+            "status": 500,
+            data: [],
+            "msg": ""
+        };
+        let Lottery = require("./model/lotteryModel");
+        if (!obj.date || new Date(obj.date) == "Invalid Date"){
+            res.json(result);
+        }else{
+            let data = {
+                "_id": new Date(obj.date).toDateString().toISOString()
+            };
+            Lottery.findOne(data).then((lottery) => {
+                if (lottery) {
+                    res.data = lottery;
+                    res.json(result);
+                }
+
+            });
+        }
+        
+    });
     //  获取系统设置
     app.get('/api/setInfo/get', function(req, res, next){
 
