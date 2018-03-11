@@ -27,7 +27,7 @@ module.exports = function(app,express){
                 }
             }
             require("../method/getData")({date:date},(data)=>{
-                console.log(data);
+                // console.log(data);
                 if(!data){
                     isNormal = false;
                     data={

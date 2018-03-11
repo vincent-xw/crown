@@ -4,7 +4,7 @@ $(function() {
   // var url = "ws://localhost:8888/";
   var ws = new WebSocket(url);
 
-  console.log(url);
+  // console.log(url);
   
 
   ws.onopen = function (e) {

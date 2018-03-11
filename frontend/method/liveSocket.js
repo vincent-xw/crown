@@ -14,7 +14,7 @@ module.exports = (wss,data,cb) =>{
           msg:""
         };
         if(res){
-          console.log("查询到直播设置，将更新");
+          // console.log("查询到直播设置，将更新");
           if(!res.isEnd){
             if (data.isFirst) {//首奖设置
               if (res.speciallyPrise.length != 13) {
@@ -142,7 +142,7 @@ module.exports = (wss,data,cb) =>{
                 Live.update({ "_id": new Date(new Date().toDateString()).toISOString() }, {
                   speciallyPrise:res.speciallyPrise
                 }).then(res1 => {
-                  console.log(res1);
+                  // console.log(res1);
                   if (res1.ok == 1 && res1.nModified == 1) {
                     Live.findOne({ "_id": new Date(new Date().toDateString()).toISOString() }).then(res2 => {
                       result.data = res2;
@@ -180,7 +180,7 @@ module.exports = (wss,data,cb) =>{
                 Live.update({ "_id": new Date(new Date().toDateString()).toISOString() }, {
                   comfortPrise:res.comfortPrise
                 }).then(res1 => {
-                  console.log(res1);
+                  // console.log(res1);
                   if (res1.ok == 1 && res1.nModified == 1) {
                     Live.findOne({ "_id": new Date(new Date().toDateString()).toISOString() }).then(res2 => {
                       result.data = res2;
@@ -304,7 +304,7 @@ module.exports = (wss,data,cb) =>{
             
           
         } else {
-          console.log("未查询到直播设置");
+          // console.log("未查询到直播设置");
           result.data = res;
           cb(result);
         }

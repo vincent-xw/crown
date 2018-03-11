@@ -16,7 +16,7 @@ module.exports = (wss, liveStatus)=>{
           let speIndex = 0, comfortIndex = 0, count = 0;
           let date = new Date(new Date().getTime()).toLocaleDateString().replace(/\//g, "-");
           require("../method/getData")({ date: date }, (data) => {
-            console.log(data);
+            // console.log(data);
             
             if (data) {
               let timer = null;

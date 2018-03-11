@@ -387,7 +387,7 @@ module.exports = function(app,wss){
                                 msg: ""
                             }
                             let createLive = new Live(livedata);
-                            console.log(createLive);
+                            // console.log(createLive);
                             
                             createLive.save().then(res1 => {
                                 Live.findOne({ "_id": new Date(new Date().toDateString()).toISOString() }).then(res2 => {

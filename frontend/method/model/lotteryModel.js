@@ -5,7 +5,7 @@ var lotterySchema = new Schema({
     _id: Date,
     period: {
         type: String,
-        default: initPeriod()
+        default: initPeriod
     },
     date: { type: Date, default: Date.now },//开奖时间
     type: String,//开奖类型
@@ -47,9 +47,10 @@ var lotterySchema = new Schema({
 function initPeriod(){
     let date = new Date();
 			
-    let month =  date.getMonth()>9?date.getMonth()+1:"0"+(date.getMonth()+1);
-    let day = date.getDate()>9?date.getDate():"0"+date.getDate();
-
+    let month =  date.getMonth()>=9?date.getMonth()+1:"0"+(date.getMonth()+1);
+    let day = date.getDate()>=9?date.getDate():"0"+date.getDate();
+    console.log("开奖序列:"+date.getFullYear() + month + day);
+    
     return date.getFullYear()+ month + day;
 }
 lotterySchema.methods.findByDate = function(dateObj,cb){
