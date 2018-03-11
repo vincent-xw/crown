@@ -302,14 +302,16 @@ module.exports = (allcount) => {
       let temp = {
         number: data[i].first.number,
         date: new Date(),
-        msg: "手动插入特殊奖"
+        msg: "手动插入特殊奖",
+        newNumber: "----"
       }
       data[i].special.splice(zb[i][0], 0, temp);
     } else {
       let temp = {
         number: data[i].first.number,
         date: new Date(),
-        msg: "手动插入特殊奖"
+        msg: "手动插入特殊奖",
+        newNumber: "----"
       }
       data[i].special.push(temp)
     }
@@ -317,14 +319,16 @@ module.exports = (allcount) => {
       let temp = {
         number: data[i].second.number,
         date: new Date(),
-        msg: "手动插入特殊奖"
+        msg: "手动插入特殊奖",
+        newNumber: "----"
       }
       data[i].special.splice(zb[i][1], 0, temp);
     } else {
       let temp = {
         number: data[i].second.number,
         date: new Date(),
-        msg: "手动插入特殊奖"
+        msg: "手动插入特殊奖",
+        newNumber: "----"
       }
       data[i].special.push(temp)
     }
@@ -332,14 +336,16 @@ module.exports = (allcount) => {
       let temp = {
         number: data[i].third.number,
         date: new Date(),
-        msg: "手动插入特殊奖"
+        msg: "手动插入特殊奖",
+        newNumber: "----"
       }
       data[i].special.splice(zb[i][2], 0, temp);
     } else {
       let temp = {
         number: data[i].third.number,
         date: new Date(),
-        msg: "手动插入特殊奖"
+        msg: "手动插入特殊奖",
+        newNumber: "----"
       }
       data[i].special.push(temp)
     }
@@ -356,7 +362,7 @@ module.exports = (allcount) => {
     };
       
     let id = new Date(new Date("2018-03-01").getTime() + (counter * 86400000)).toLocaleDateString().replace(/\//g, '-');
-    console.log(id);
+
     
     let obj1 = {
       "_id": id,
