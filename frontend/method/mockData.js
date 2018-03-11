@@ -51,6 +51,7 @@ module.exports = (allcount)=>{
             //     obj1._id = new Date().toLocaleDateString().replace(/\//g,'-');
             //     obj1.period = initPeriod(obj1._id);
             // }
+            
             // 系统开奖模式
 
             let lottery1 = new Lottery(obj1);
