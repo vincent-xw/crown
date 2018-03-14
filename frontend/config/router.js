@@ -48,7 +48,7 @@ module.exports = function(app,express){
                     }
                 }
 
-                if (time > 0 && time <= 30 * 60 * 1000) {
+                if (time > 0 && time <= 26 * 60 * 1000) {
                     isLive = true;
                     data = {
                         data: {
