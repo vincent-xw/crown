@@ -6,7 +6,7 @@ module.exports = function(app,express){
         .get(function(req, res){
             let date = null;
 
-            let timeStr = new Date().toLocaleDateString() + " 19:15";
+            let timeStr = new Date().toLocaleDateString() + " 19:10";
             let time = new Date() - new Date(timeStr);
 
             let data = null;
@@ -83,9 +83,9 @@ module.exports = function(app,express){
                 systemInfo.findOne().then(sys => {
                     if (sys.status == 1) {
                         if(time < 0){
-                            nextTime = new Date().toLocaleDateString() + " 19:15:00";
+                            nextTime = new Date().toLocaleDateString() + " 19:10:00";
                         }else{
-                            nextTime = new Date(new Date().getTime() + 86400000).toLocaleDateString() + " 19:15:00"
+                            nextTime = new Date(new Date().getTime() + 86400000).toLocaleDateString() + " 19:10:00"
                         }
                         
                     }else{
