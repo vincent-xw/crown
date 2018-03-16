@@ -31,7 +31,7 @@ require("./config/hbs_helper")(hbs);
 app.engine('html', hbs.__express);
 
 app.set("views", __dirname + "/views");
-// app.use(express.static(__dirname + '/static'));
+app.use('/static',express.static(__dirname + '/static'));
 
 // 引入直播
 // let live = require("./method/live")();
