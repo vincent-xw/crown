@@ -122,6 +122,9 @@ module.exports = function(app,express){
     app.get('/', function(req, res){
         res.redirect('/zh_cn/');
     });
+    app.get('/resource', function (req, res) {
+        res.redirect('/resource');
+    });
     
     app.use('*', function(req, res){
         res.render('404',{'data':{"bgimg":"404.jpg"}});
